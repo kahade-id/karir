@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
@@ -23,7 +23,6 @@ export const metadata: Metadata = {
     icon: "/favicon.svg",
     apple: "/logo.svg",
   },
-  themeColor: "#ffffff",
   openGraph: {
     type: "website",
     locale: "id_ID",
@@ -35,6 +34,10 @@ export const metadata: Metadata = {
     // 1200×630). Jangan set images eksplisit ke /logo.svg — SVG tidak
     // di-render scraper sosial (Facebook/X/WhatsApp).
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({
@@ -56,8 +59,17 @@ export default function RootLayout({
       <body>
         <SubmissionProvider>
           <div className="flex min-h-screen flex-col bg-white text-black">
+            {/* Skip-to-content: lompat ke konten utama tanpa tab berkali-kali. */}
+            <a
+              href="#konten"
+              className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-xl focus:bg-black focus:px-4 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-white"
+            >
+              Lewati ke konten
+            </a>
             <Header />
-            <main className="flex-1">{children}</main>
+            <main id="konten" tabIndex={-1} className="flex-1 outline-none">
+              {children}
+            </main>
             <Footer />
           </div>
         </SubmissionProvider>

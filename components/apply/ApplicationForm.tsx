@@ -126,7 +126,11 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
         setErrors({ submit: "Terjadi kesalahan. Silakan coba lagi." });
       }
       void loadCaptcha(); // soal baru setelah gagal
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      // Tanpa animasi scroll bila user meminta reduced motion.
+      const reduceMotion =
+        typeof window.matchMedia === "function" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
       // Pindahkan fokus ke pesan error agar terbaca screen reader
       requestAnimationFrame(() => submitErrorRef.current?.focus());
     } finally {

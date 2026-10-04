@@ -19,6 +19,10 @@ export default function DeleteApplicationForm() {
     requestAnimationFrame(() =>
       errorRef.current?.scrollIntoView({ block: "center" })
     );
+    // Pindahkan fokus ke pesan error agar terbaca screen reader.
+    requestAnimationFrame(() =>
+      errorRef.current?.focus({ preventScroll: true })
+    );
   };
 
   const handleCheck = (e: React.FormEvent) => {
