@@ -47,11 +47,25 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!posting) {
     return { title: "Lamar — posisi tidak ditemukan" };
   }
+  const pageTitle = `Lamar: ${posting.title}`;
+  const ogDescription = `Kirim lamaran untuk posisi ${posting.title} di Kahade.`;
   return {
-    title: `Lamar: ${posting.title}`,
-    description: `Kirim lamaran untuk posisi ${posting.title} di Kahade.`,
+    title: pageTitle,
+    description: ogDescription,
     alternates: { canonical: `/lamar/${posting.slug}` },
     robots: { index: false, follow: true },
+    // Sama seperti /lowongan/[slug]: openGraph.* harus eksplisit agar tidak
+    // duplikat homepage (layout men-set openGraph.title/description sendiri).
+    openGraph: {
+      title: pageTitle,
+      description: ogDescription,
+      url: `/lamar/${posting.slug}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: pageTitle,
+      description: ogDescription,
+    },
   };
 }
 

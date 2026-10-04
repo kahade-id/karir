@@ -47,10 +47,27 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!posting) {
     return { title: "Lowongan tidak ditemukan" };
   }
+  const ogDescription = `Lowongan kerja startup di Kahade untuk posisi ${posting.title}. ${posting.summary}`;
   return {
     title: posting.title,
-    description: `Lowongan kerja startup di Kahade untuk posisi ${posting.title}. ${posting.summary}`,
+    description: ogDescription,
     alternates: { canonical: `/lowongan/${posting.slug}` },
+    // WAJIB eksplisit: layout sudah men-set openGraph.title/description ke
+    // homepage, dan merge metadata Next.js TIDAK menimpa field openGraph.*
+    // dengan title/description halaman — tanpa ini og:title/og:description
+    // (beserta turunan twitter:*) duplikat homepage di semua halaman lowongan.
+    // og:image unik per lowongan berasal dari ./opengraph-image.tsx.
+    openGraph: {
+      title: posting.title,
+      description: ogDescription,
+      url: `/lowongan/${posting.slug}`,
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: posting.title,
+      description: ogDescription,
+    },
   };
 }
 
