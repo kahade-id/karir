@@ -1,13 +1,13 @@
 {
   "dependencies": {
-    "@kahade/ui": "github:kahade-id/design-system#v0.4.3",
+    "@kahade/ui": "github:kahade-id/design-system#v0.5.0",
     "@phosphor-icons/react": "^2.1.10",
     "motion": "^13.5.0",
     "next": "^16.3.8",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },
-  "description": "Halaman karir Kahade \u2014 karir.kahade.id",
+  "description": "Halaman karir Kahade — karir.kahade.id",
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^26.6.3",

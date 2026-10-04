@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ButtonLink from "@/components/site/ButtonLink";
+import { ButtonLink } from "@kahade/ui";
 
 export const metadata: Metadata = {
   title: "Halaman tidak ditemukan",
@@ -16,7 +16,7 @@ export default function NotFound() {
       <p className="mt-2 text-sm text-neutral-500">
         Mungkin alamatnya salah ketik atau halaman sudah dipindahkan.
       </p>
-      <ButtonLink href="/" className="mt-8 px-6 py-3">
+      <ButtonLink href="/" className="mt-8">
         Kembali ke beranda
       </ButtonLink>
     </div>

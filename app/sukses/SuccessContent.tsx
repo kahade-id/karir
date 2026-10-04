@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import { CheckCircle, Eye, EyeSlash } from "@phosphor-icons/react";
-import { Button, CopyButton, Icon } from "@kahade/ui";
+import { Button, ButtonLink, CopyButton, Icon } from "@kahade/ui";
 import { useState } from "react";
 import { useSubmission } from "@/components/apply/SubmissionStore";
-import ButtonLink from "@/components/site/ButtonLink";
 
 export default function SuccessContent() {
   const { result } = useSubmission();

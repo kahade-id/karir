@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { Logo } from "@kahade/ui";
-import ButtonLink from "@/components/site/ButtonLink";
+import { ButtonLink, Logo } from "@kahade/ui";
 
 export default function Header() {
   return (
@@ -12,7 +11,7 @@ export default function Header() {
             Kahade <span className="font-medium text-neutral-500">Karir</span>
           </span>
         </Link>
-        <ButtonLink href="/#lowongan" className="px-4 py-2 text-sm font-semibold">
+        <ButtonLink href="/#lowongan" size="sm">
           Lihat lowongan
         </ButtonLink>
       </div>

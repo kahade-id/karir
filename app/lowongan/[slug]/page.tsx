@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Check } from "@phosphor-icons/react/dist/ssr";
-import { Icon } from "@kahade/ui";
+import { ButtonLink, Icon } from "@kahade/ui";
 import EquityNotice from "@/components/site/EquityNotice";
-import ButtonLink from "@/components/site/ButtonLink";
 import { getPosting, getPostings, type JobPostingDetail } from "@/lib/api";
 import { renderMarkdown } from "@/lib/markdown";
 
@@ -134,7 +133,7 @@ export default async function JobDetailPage({ params }: PageProps) {
         <p className="mt-1 text-sm text-neutral-500">
           Isi formulir lamaran — butuh beberapa menit saja.
         </p>
-        <ButtonLink href={`/lamar/${posting.slug}`} className="mt-5">
+        <ButtonLink href={`/lamar/${posting.slug}`} size="lg" className="mt-5">
           Lamar posisi ini
         </ButtonLink>
       </div>
