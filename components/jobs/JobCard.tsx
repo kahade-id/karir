@@ -32,7 +32,7 @@ export default function JobCard({ posting }: { posting: JobPostingSummary }) {
           {posting.summary}
         </p>
         <div className="mt-4">
-          <Badge>{posting.equity}</Badge>
+          <Badge variant="dark">{posting.equity}</Badge>
         </div>
       </Card>
     </Link>

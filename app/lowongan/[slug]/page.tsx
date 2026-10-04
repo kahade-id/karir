@@ -91,7 +91,7 @@ export default async function JobDetailPage({ params }: PageProps) {
           {posting.location} · {posting.type}
         </p>
         <div className="mt-4">
-          <Badge>{posting.equity}</Badge>
+          <Badge variant="dark">{posting.equity}</Badge>
         </div>
       </header>
 
