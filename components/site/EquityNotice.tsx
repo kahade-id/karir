@@ -12,8 +12,7 @@ export default function EquityNotice() {
     >
       <div className="flex items-start gap-3">
         <Info
-          size={22}
-          weight="fill"
+          size={20}
           className="mt-0.5 shrink-0 text-black"
           aria-hidden
         />

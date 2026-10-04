@@ -14,7 +14,7 @@ import {
 } from "@/lib/api";
 
 const inputCls =
-  "w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm text-black placeholder:text-neutral-400 outline-none transition focus:border-black";
+  "w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm text-black placeholder:text-neutral-400 outline-none transition focus:border-black focus:ring-[3px] focus:ring-black/5";
 
 interface FormErrors {
   fullName?: string;
@@ -321,7 +321,7 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
       <button
         type="submit"
         disabled={submitting}
-        className="w-full rounded-full bg-black px-6 py-3.5 text-sm font-bold text-white transition hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-60"
+        className="w-full rounded-full bg-black px-6 py-3.5 text-sm font-bold text-white transition hover:bg-neutral-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 disabled:active:scale-100"
       >
         {submitting ? "Mengirim lamaran…" : "Kirim lamaran"}
       </button>

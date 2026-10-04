@@ -73,7 +73,7 @@ export default function CvUpload({ onChange, onError, disabled }: Props) {
           const f = e.target.files?.[0];
           if (f) void startUpload(f);
         }}
-        className="sr-only"
+        className="sr-only peer"
         id="cv-upload"
         aria-label="Unggah CV (PDF, maksimal 5 MB)"
       />
@@ -81,11 +81,11 @@ export default function CvUpload({ onChange, onError, disabled }: Props) {
       {status === "idle" && (
         <label
           htmlFor="cv-upload"
-          className={`flex cursor-pointer items-center gap-3 rounded-2xl border border-dashed border-neutral-300 bg-white px-5 py-6 transition hover:border-neutral-500 ${
+          className={`flex cursor-pointer items-center gap-3 rounded-2xl border border-dashed border-neutral-300 bg-white px-5 py-6 transition hover:border-neutral-500 peer-focus-visible:border-black peer-focus-visible:ring-[3px] peer-focus-visible:ring-black/5 ${
             disabled ? "pointer-events-none opacity-50" : ""
           }`}
         >
-          <UploadSimple size={24} weight="duotone" className="text-black" aria-hidden />
+          <UploadSimple size={24} className="text-black" aria-hidden />
           <span className="text-sm">
             <span className="font-semibold text-black">Pilih file CV</span>
             <span className="block text-neutral-500">
@@ -121,7 +121,7 @@ export default function CvUpload({ onChange, onError, disabled }: Props) {
       {status === "done" && (
         <div className="flex items-center justify-between gap-3 rounded-2xl border border-neutral-200 bg-neutral-50 px-5 py-4">
           <div className="flex min-w-0 items-center gap-3">
-            <FilePdf size={24} weight="fill" className="shrink-0 text-black" aria-hidden />
+            <FilePdf size={24} className="shrink-0 text-black" aria-hidden />
             <span className="truncate text-sm font-medium text-black">
               {fileName}
             </span>

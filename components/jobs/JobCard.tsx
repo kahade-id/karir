@@ -6,7 +6,7 @@ export default function JobCard({ posting }: { posting: JobPostingSummary }) {
   return (
     <Link
       href={`/lowongan/${posting.slug}`}
-      className="group block rounded-2xl border border-neutral-200 bg-white p-6 transition hover:border-neutral-400 hover:shadow-sm"
+      className="group block rounded-2xl border border-neutral-200 bg-white p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-neutral-300 hover:shadow-[0_12px_32px_rgb(0,0,0,0.07)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:translate-y-0 active:scale-[0.995]"
     >
       <div className="flex items-start justify-between gap-4">
         <div>
@@ -21,7 +21,6 @@ export default function JobCard({ posting }: { posting: JobPostingSummary }) {
           Detail
           <ArrowRight
             size={16}
-            weight="bold"
             className="transition-transform group-hover:translate-x-0.5"
             aria-hidden
           />
