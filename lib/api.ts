@@ -87,7 +87,19 @@ async function getJson<T>(path: string, init?: RequestInit): Promise<T> {
     headers: { "Content-Type": "application/json", ...(init?.headers ?? {}) },
   });
   if (!res.ok) throw await parseError(res);
-  return (await res.json()) as T;
+  return unwrapEnvelope<T>(await res.json());
+}
+
+/**
+ * Backend membungkus semua respons sukses dalam envelope
+ * { success, message, data, errors }. Seluruh pemanggil getJson/uploadCv
+ * mengharapkan isi `data` langsung — unwrap di sini agar kontrak konsisten.
+ */
+function unwrapEnvelope<T>(body: unknown): T {
+  if (body !== null && typeof body === "object" && "data" in body) {
+    return (body as { data: T }).data;
+  }
+  return body as T;
 }
 
 export async function getPostings(): Promise<JobPostingSummary[]> {
@@ -150,10 +162,13 @@ export function uploadCv(
     xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status < 300) {
         try {
-          resolve(JSON.parse(xhr.responseText) as {
-            fileKey: string;
-            expiresIn: number;
-          });
+          const body = JSON.parse(xhr.responseText) as
+            | { fileKey: string; expiresIn: number }
+            | { data: { fileKey: string; expiresIn: number } };
+          // Backend membungkus dalam envelope { success, message, data, errors }
+          const payload =
+            "data" in body && body.data ? body.data : (body as { fileKey: string; expiresIn: number });
+          resolve(payload);
         } catch {
           reject(new ApiError(xhr.status, undefined, messageFor(xhr.status)));
         }
