@@ -2,6 +2,11 @@
 @import "@kahade/ui/tokens.css";
 @import "@kahade/ui/styles/base.css";
 
+/* WAJIB: Tailwind v4 tidak men-scan node_modules — tanpa ini, utility class
+   yang hanya dipakai di source @kahade/ui (mis. pl-11 di SearchField) tidak
+   ter-generate dan layout DS rusak diam-diam. */
+@source "../node_modules/@kahade/ui/src";
+
 @theme {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 }
