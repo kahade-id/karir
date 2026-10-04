@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { CheckCircle, Eye, EyeSlash } from "@phosphor-icons/react";
-import { Button, ButtonLink, CopyButton, Icon } from "@kahade/ui";
+import { Button, ButtonLink, Card, CopyButton, Icon } from "@kahade/ui";
 import { useState } from "react";
 import { useSubmission } from "@/components/apply/SubmissionStore";
 
@@ -58,16 +58,16 @@ export default function SuccessContent() {
           </p>
         </div>
       ) : (
-        <div className="mt-8 rounded-2xl border border-neutral-200 bg-white p-6 text-center">
+        <Card className="mt-8 text-center">
           <p className="text-sm leading-relaxed text-neutral-600">
             Halaman ini dibuka tanpa data lamaran (mis. setelah refresh).
             Token penghapusan hanya tampil sekali tepat setelah lamaran
             terkirim — catat baik-baik saat itu.
           </p>
-        </div>
+        </Card>
       )}
 
-      <div className="mt-6 rounded-2xl border border-neutral-200 bg-white p-6">
+      <Card className="mt-6">
         <p className="text-sm font-bold text-black">Retensi data</p>
         <p className="mt-2 text-sm leading-relaxed text-neutral-600">
           Lamaran yang tidak lolos dihapus otomatis maksimal 90 hari setelah
@@ -77,7 +77,7 @@ export default function SuccessContent() {
           </Link>
           .
         </p>
-      </div>
+      </Card>
 
       <div className="mt-8 text-center">
         <ButtonLink href="/">Kembali ke beranda</ButtonLink>

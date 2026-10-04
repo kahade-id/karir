@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Check } from "@phosphor-icons/react/dist/ssr";
-import { ButtonLink, Icon } from "@kahade/ui";
+import { Badge, ButtonLink, Icon } from "@kahade/ui";
 import EquityNotice from "@/components/site/EquityNotice";
 import { getPosting, getPostings, type JobPostingDetail } from "@/lib/api";
 import { renderMarkdown } from "@/lib/markdown";
@@ -91,9 +91,7 @@ export default async function JobDetailPage({ params }: PageProps) {
           {posting.location} · {posting.type}
         </p>
         <div className="mt-4">
-          <span className="inline-block rounded-full bg-black px-4 py-1.5 text-sm font-bold text-white">
-            {posting.equity}
-          </span>
+          <Badge>{posting.equity}</Badge>
         </div>
       </header>
 

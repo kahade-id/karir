@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { ButtonLink, Card } from "@kahade/ui";
 
 export const metadata: Metadata = {
   title: "Kebijakan Privasi Pelamar",
@@ -80,22 +80,20 @@ export default function PrivacyPage() {
 
       <div className="mt-8 space-y-3">
         {SECTIONS.map((s) => (
-          <section
-            key={s.title}
-            aria-label={s.title}
-            className="rounded-2xl border border-neutral-200 bg-white px-6 py-5"
-          >
-            <h2 className="text-base font-bold text-black">{s.title}</h2>
-            <ul className="mt-3 space-y-2">
-              {s.body.map((p, i) => (
-                <li
-                  key={i}
-                  className="text-sm leading-relaxed text-neutral-600"
-                >
-                  {p}
-                </li>
-              ))}
-            </ul>
+          <section key={s.title} aria-label={s.title}>
+            <Card>
+              <h2 className="text-base font-bold text-black">{s.title}</h2>
+              <ul className="mt-3 space-y-2">
+                {s.body.map((p, i) => (
+                  <li
+                    key={i}
+                    className="text-sm leading-relaxed text-neutral-600"
+                  >
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </Card>
           </section>
         ))}
       </div>
@@ -105,12 +103,9 @@ export default function PrivacyPage() {
         <p className="mt-1 text-sm leading-relaxed text-neutral-600">
           Gunakan token penghapusan yang kamu terima setelah melamar.
         </p>
-        <Link
-          href="/hapus-lamaran"
-          className="mt-3 inline-block rounded-full bg-black px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-neutral-800"
-        >
+        <ButtonLink href="/hapus-lamaran" className="mt-3">
           Hapus lamaran
-        </Link>
+        </ButtonLink>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { FilePdf, UploadSimple, XCircle } from "@phosphor-icons/react";
-import { Icon, Progress } from "@kahade/ui";
+import { Button, Icon, Progress } from "@kahade/ui";
 import { uploadCv, ApiError } from "@/lib/api";
 
 const MAX_BYTES = 5 * 1024 * 1024;
@@ -117,14 +117,17 @@ export default function CvUpload({ onChange, onError, disabled }: Props) {
               {fileName}
             </span>
           </div>
-          <button
+          <Button
             type="button"
+            variant="secondary"
+            size="sm"
+            leftIcon={XCircle}
             onClick={reset}
             disabled={disabled}
-            className="flex shrink-0 items-center gap-1 text-sm font-medium text-neutral-500 transition-colors hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2 disabled:opacity-50"
+            className="shrink-0"
           >
-            <Icon icon={XCircle} size={18} /> Ganti
-          </button>
+            Ganti
+          </Button>
         </div>
       )}
     </div>
