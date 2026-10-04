@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Kebijakan Privasi Pelamar",
@@ -97,6 +98,19 @@ export default function PrivacyPage() {
             </ul>
           </section>
         ))}
+      </div>
+
+      <div className="mt-3 rounded-2xl border border-neutral-200 bg-neutral-50 px-6 py-5 text-center">
+        <p className="text-sm font-bold text-black">Ingin menghapus lamaranmu?</p>
+        <p className="mt-1 text-sm leading-relaxed text-neutral-600">
+          Gunakan token penghapusan yang kamu terima setelah melamar.
+        </p>
+        <Link
+          href="/hapus-lamaran"
+          className="mt-3 inline-block rounded-full bg-black px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-neutral-800"
+        >
+          Hapus lamaran
+        </Link>
       </div>
     </div>
   );

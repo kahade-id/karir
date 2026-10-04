@@ -31,7 +31,9 @@ export const metadata: Metadata = {
     title: "Karier di Kahade — Bangun Sosial Commerce Indonesia",
     description:
       "Bergabung dengan tim awal Kahade. Skema kompensasi transparan: tanpa gaji, dengan saham/equity.",
-    images: [{ url: "/logo.svg", alt: "Logo Kahade" }],
+    // Gambar og:image diambil otomatis dari app/opengraph-image.tsx (PNG
+    // 1200×630). Jangan set images eksplisit ke /logo.svg — SVG tidak
+    // di-render scraper sosial (Facebook/X/WhatsApp).
   },
 };
 

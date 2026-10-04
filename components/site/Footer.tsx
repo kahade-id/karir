@@ -28,6 +28,9 @@ export default function Footer() {
             <Link href="/privasi-pelamar" className="hover:text-black">
               Kebijakan privasi pelamar
             </Link>
+            <Link href="/hapus-lamaran" className="hover:text-black">
+              Hapus lamaran
+            </Link>
             {SIBLINGS.map((l) => (
               <a key={l.href} href={l.href} className="hover:text-black">
                 {l.label}

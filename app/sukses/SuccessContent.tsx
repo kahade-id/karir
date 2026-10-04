@@ -50,8 +50,12 @@ export default function SuccessContent() {
           </div>
           <p className="mt-4 text-sm leading-relaxed text-neutral-600">
             Token ini satu-satunya cara menghapus lamaranmu (beserta CV) kapan
-            saja, tanpa perlu akun. Kami tidak menyimpannya dalam bentuk yang
-            bisa dibaca — bila hilang, hubungi kami manual.
+            saja, tanpa perlu akun — misalnya lewat{" "}
+            <Link href="/hapus-lamaran" className="font-semibold text-black underline">
+              halaman hapus lamaran
+            </Link>
+            . Kami tidak menyimpannya dalam bentuk yang bisa dibaca — bila
+            hilang, hubungi kami manual.
           </p>
         </div>
       ) : (

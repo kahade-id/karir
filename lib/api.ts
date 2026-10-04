@@ -50,6 +50,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   BOT_DETECTED: "Verifikasi gagal. Silakan muat ulang halaman dan coba lagi.",
   VALIDATION_ERROR: "Periksa kembali data yang kamu isi.",
   CAPTCHA_INVALID: "Jawaban CAPTCHA salah. Silakan coba lagi.",
+  APPLICATION_NOT_FOUND: "Token tidak valid atau lamaran sudah dihapus.",
 };
 
 function messageFor(status: number, code?: string): string {
@@ -143,6 +144,22 @@ export async function submitApplication(
     method: "POST",
     body: JSON.stringify(payload),
   });
+}
+
+/**
+ * Hapus lamaran via token penghapusan.
+ * Backend: DELETE /careers/applications/:token, token juga dikirim di header
+ * x-deletion-token. Token salah → 404 APPLICATION_NOT_FOUND.
+ */
+export async function deleteApplication(token: string): Promise<void> {
+  const res = await fetch(
+    `${API_BASE_URL}/careers/applications/${encodeURIComponent(token)}`,
+    {
+      method: "DELETE",
+      headers: { "x-deletion-token": token },
+    }
+  );
+  if (!res.ok) throw await parseError(res);
 }
 
 /**
