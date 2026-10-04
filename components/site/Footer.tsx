@@ -1,41 +1,51 @@
 import Link from "next/link";
 
+const SIBLINGS = [
+  { label: "Legalitas", href: "https://legal.kahade.id" },
+  { label: "Bantuan", href: "https://bantuan.kahade.id" },
+  { label: "Status Layanan", href: "https://status.kahade.id" },
+  { label: "Investor", href: "https://investor.kahade.id" },
+  { label: "Artikel", href: "https://artikel.kahade.id" },
+];
+
 export default function Footer() {
+  const year = new Date().getFullYear();
   return (
     <footer className="border-t border-neutral-200 bg-white">
-      <div className="mx-auto flex max-w-4xl flex-col gap-4 px-5 py-8 text-sm text-neutral-600 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-2.5">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="Logo Kahade" className="h-6 w-6" />
-          <span className="font-semibold text-black">Kahade</span>
-          <span className="text-neutral-400">—</span>
-          <span>PT Kawal Hak Dengan Aman</span>
+      <div className="mx-auto max-w-4xl px-5 py-8 text-sm text-neutral-600">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-2.5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.svg" alt="Logo Kahade" className="h-6 w-6" />
+            <span className="font-semibold text-black">Kahade</span>
+            <span className="text-neutral-400">—</span>
+            <span>PT Kawal Hak Dengan Aman</span>
+          </div>
+          <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <Link href="/#lowongan" className="hover:text-black">
+              Lowongan
+            </Link>
+            <Link href="/privasi-pelamar" className="hover:text-black">
+              Kebijakan privasi pelamar
+            </Link>
+            {SIBLINGS.map((l) => (
+              <a key={l.href} href={l.href} className="hover:text-black">
+                {l.label}
+              </a>
+            ))}
+            <a
+              href="https://kahade.id"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-black"
+            >
+              kahade.id
+            </a>
+          </nav>
         </div>
-        <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
-          <Link href="/#lowongan" className="hover:text-black">
-            Lowongan
-          </Link>
-          <Link href="/privasi-pelamar" className="hover:text-black">
-            Kebijakan privasi pelamar
-          </Link>
-          <a href="https://legal.kahade.id" className="hover:text-black">
-            Legalitas
-          </a>
-          <a href="https://bantuan.kahade.id" className="hover:text-black">
-            Bantuan
-          </a>
-          <a href="https://status.kahade.id" className="hover:text-black">
-            Status
-          </a>
-          <a
-            href="https://kahade.id"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-black"
-          >
-            kahade.id
-          </a>
-        </nav>
+        <p className="mt-6 border-t border-neutral-100 pt-4 text-xs text-neutral-400">
+          © {year} PT Kawal Hak Dengan Aman. Hak cipta dilindungi.
+        </p>
       </div>
     </footer>
   );
