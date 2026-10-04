@@ -13,11 +13,11 @@ const GOOGLE_FONTS_URL =
 
 export const metadata: Metadata = {
   title: {
-    default: "Karier di Kahade — Bangun Sosial Commerce Indonesia",
-    template: "%s — Karier Kahade",
+    default: "Karir di Kahade — Lowongan Kerja Startup Indonesia",
+    template: "%s — Karir Kahade",
   },
   description:
-    "Bergabung dengan tim awal Kahade. Skema kompensasi transparan: tanpa gaji, dengan saham/equity. Lihat lowongan yang terbuka.",
+    "Lowongan kerja startup di Kahade, aplikasi jual-beli pengguna ke pengguna yang tampilannya seperti media sosial. Tim awal tanpa gaji, dengan skema saham/equity — lihat posisi yang terbuka.",
   metadataBase: new URL("https://karir.kahade.id"),
   icons: {
     icon: "/favicon.svg",
@@ -27,10 +27,10 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "id_ID",
-    siteName: "Karier Kahade",
-    title: "Karier di Kahade — Bangun Sosial Commerce Indonesia",
+    siteName: "Karir Kahade",
+    title: "Karir di Kahade — Lowongan Kerja Startup Indonesia",
     description:
-      "Bergabung dengan tim awal Kahade. Skema kompensasi transparan: tanpa gaji, dengan saham/equity.",
+      "Lowongan kerja startup di Kahade. Tim awal tanpa gaji, dengan skema saham/equity.",
     // Gambar og:image diambil otomatis dari app/opengraph-image.tsx (PNG
     // 1200×630). Jangan set images eksplisit ke /logo.svg — SVG tidak
     // di-render scraper sosial (Facebook/X/WhatsApp).

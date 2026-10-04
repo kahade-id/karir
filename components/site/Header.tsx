@@ -9,7 +9,7 @@ export default function Header() {
         <Link href="/" className="flex items-center gap-2.5">
           <Logo size={32} />
           <span className="text-base font-bold tracking-tight text-black">
-            Kahade <span className="font-medium text-neutral-500">Karier</span>
+            Kahade <span className="font-medium text-neutral-500">Karir</span>
           </span>
         </Link>
         <ButtonLink href="/#lowongan" className="px-4 py-2 text-sm font-semibold">

@@ -41,7 +41,7 @@ export default function OgImage() {
             letterSpacing: "-2px",
           }}
         >
-          <div>Karier di Kahade</div>
+          <div>Karir di Kahade</div>
         </div>
         <div style={{ marginTop: "24px", fontSize: "28px", color: "#525252" }}>
           Bangun sosial commerce Indonesia bersama tim awal.

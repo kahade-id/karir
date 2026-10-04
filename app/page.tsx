@@ -7,9 +7,9 @@ import { getPostings } from "@/lib/api";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Karier di Kahade — Bangun Sosial Commerce Indonesia",
+  title: "Karir di Kahade — Lowongan Kerja Startup Indonesia",
   description:
-    "Bergabung dengan tim awal Kahade. Skema kompensasi transparan: tanpa gaji, dengan saham/equity PT Kawal Hak Dengan Aman. Lihat lowongan yang terbuka.",
+    "Lowongan kerja startup di Kahade, aplikasi jual-beli pengguna ke pengguna yang tampilannya seperti media sosial. Tim awal tanpa gaji, dengan saham/equity PT Kawal Hak Dengan Aman. Lihat posisi yang terbuka.",
   alternates: { canonical: "/" },
 };
 
@@ -50,7 +50,7 @@ export default async function HomePage() {
       <section className="py-6 text-center sm:py-10">
         <Logo size={56} className="mx-auto" />
         <h1 className="mt-6 text-balance text-3xl font-bold tracking-tight text-black sm:text-4xl">
-          Bangun Kahade bareng kami.
+          Lowongan kerja di Kahade.
         </h1>
         <p className="mx-auto mt-3 max-w-xl text-base leading-relaxed text-neutral-600">
           Kahade adalah aplikasi jual-beli pengguna ke pengguna yang

@@ -36,8 +36,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: "Lowongan tidak ditemukan" };
   }
   return {
-    title: `${posting.title} — Lowongan`,
-    description: posting.summary,
+    title: posting.title,
+    description: `Lowongan kerja startup di Kahade untuk posisi ${posting.title}. ${posting.summary}`,
     alternates: { canonical: `/lowongan/${posting.slug}` },
   };
 }
