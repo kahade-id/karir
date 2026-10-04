@@ -18,6 +18,15 @@ export default function Footer() {
           <Link href="/privasi-pelamar" className="hover:text-black">
             Kebijakan privasi pelamar
           </Link>
+          <a href="https://legal.kahade.id" className="hover:text-black">
+            Legalitas
+          </a>
+          <a href="https://bantuan.kahade.id" className="hover:text-black">
+            Bantuan
+          </a>
+          <a href="https://status.kahade.id" className="hover:text-black">
+            Status
+          </a>
           <a
             href="https://kahade.id"
             target="_blank"

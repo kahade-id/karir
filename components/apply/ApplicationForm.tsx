@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowsClockwise } from "@phosphor-icons/react";
 import { Alert, Button, Checkbox, Icon, Input, Textarea } from "@kahade/ui";
@@ -44,6 +44,7 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
   const [cvError, setCvError] = useState<string | null>(null);
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitting, setSubmitting] = useState(false);
+  const submitErrorRef = useRef<HTMLDivElement>(null);
 
   const loadCaptcha = async () => {
     setCaptchaLoading(true);
@@ -64,8 +65,9 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
 
   const validate = (): FormErrors => {
     const e: FormErrors = {};
-    if (fullName.trim().length < 2)
-      e.fullName = "Isi nama lengkap kamu.";
+    // Samakan dengan backend: @MinLength(3) untuk nama, @Matches(/^\+?[0-9]{9,16}$/) untuk HP
+    if (fullName.trim().length < 3)
+      e.fullName = "Isi nama lengkap kamu (minimal 3 karakter).";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()))
       e.email = "Alamat email tidak valid.";
     const digits = phone.replace(/\D/g, "");
@@ -98,7 +100,11 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
         postingId: posting.id,
         fullName: fullName.trim(),
         email: email.trim(),
-        phone: phone.trim(),
+        // Normalisasi: backend hanya terima digit (opsional + di depan).
+        // Spasi/strip/tanda kurung dari input pengguna harus dibuang.
+        phone: phone.trim().startsWith("+")
+          ? "+" + phone.replace(/\D/g, "")
+          : phone.replace(/\D/g, ""),
         coverNote: coverNote.trim() || undefined,
         portfolioUrl: portfolioUrl.trim() || undefined,
         cvFileKey: cv.fileKey as string,
@@ -116,6 +122,8 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
       }
       void loadCaptcha(); // soal baru setelah gagal
       window.scrollTo({ top: 0, behavior: "smooth" });
+      // Pindahkan fokus ke pesan error agar terbaca screen reader
+      requestAnimationFrame(() => submitErrorRef.current?.focus());
     } finally {
       setSubmitting(false);
     }
@@ -123,7 +131,11 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-5">
-      {errors.submit && <Alert variant="danger">{errors.submit}</Alert>}
+      {errors.submit && (
+        <div ref={submitErrorRef} tabIndex={-1} className="outline-none">
+          <Alert variant="danger">{errors.submit}</Alert>
+        </div>
+      )}
 
       <Input
         id="fullName"

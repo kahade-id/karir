@@ -67,13 +67,17 @@ async function parseError(res: Response): Promise<ApiError> {
   let code: string | undefined;
   try {
     const body: unknown = await res.json();
-    if (
-      body !== null &&
-      typeof body === "object" &&
-      "error" in body &&
-      typeof (body as { error: unknown }).error === "string"
-    ) {
-      code = (body as { error: string }).error;
+    // Backend mengirim envelope { success:false, message, data:null, errors:{ code, ... } }
+    if (body !== null && typeof body === "object" && "errors" in body) {
+      const errors = (body as { errors: unknown }).errors;
+      if (
+        errors !== null &&
+        typeof errors === "object" &&
+        "code" in errors &&
+        typeof (errors as { code: unknown }).code === "string"
+      ) {
+        code = (errors as { code: string }).code;
+      }
     }
   } catch {
     // abaikan — respons bukan JSON
@@ -173,10 +177,13 @@ export function uploadCv(
           reject(new ApiError(xhr.status, undefined, messageFor(xhr.status)));
         }
       } else {
+        // Error envelope backend: { success:false, message, data:null, errors:{ code } }
         let code: string | undefined;
         try {
-          const body = JSON.parse(xhr.responseText) as { error?: string };
-          if (typeof body.error === "string") code = body.error;
+          const body = JSON.parse(xhr.responseText) as {
+            errors?: { code?: string };
+          };
+          if (typeof body.errors?.code === "string") code = body.errors.code;
         } catch {
           // abaikan
         }
