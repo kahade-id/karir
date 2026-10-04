@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowsClockwise } from "@phosphor-icons/react";
-import { Alert, Button, Checkbox, Icon, Input, Textarea } from "@kahade/ui";
+import { Alert, Button, Checkbox, FieldError, Input, Textarea } from "@kahade/ui";
 import CvUpload, { type CvUploadState } from "@/components/apply/CvUpload";
 import { useSubmission } from "@/components/apply/SubmissionStore";
 import {
@@ -187,7 +187,7 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
           disabled={submitting}
         />
         {(errors.cv ?? cvError) && (
-          <p className="mt-1.5 text-xs text-red-600">{errors.cv ?? cvError}</p>
+          <FieldError>{errors.cv ?? cvError}</FieldError>
         )}
       </div>
 
@@ -214,7 +214,7 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
           placeholder="Ceritakan singkat kenapa kamu cocok untuk posisi ini…"
           error={errors.coverNote}
         />
-        <p className="mt-1.5 text-right text-xs text-neutral-400">
+        <p className="mt-1.5 text-right text-xs text-neutral-500">
           {coverNote.length}/2000
         </p>
       </div>
@@ -243,24 +243,27 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
             <>
               <p className="text-sm font-medium text-black">{captcha.question}</p>
               <div className="mt-3 flex gap-2">
-                <input
+                <Input
                   type="text"
                   value={captchaAnswer}
                   onChange={(e) => setCaptchaAnswer(e.target.value)}
                   placeholder="Jawaban"
                   autoComplete="off"
                   aria-label="Jawaban verifikasi"
-                  className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm text-black placeholder:text-neutral-400 outline-none transition focus:border-black focus:ring-[3px] focus:ring-black/5"
+                  error={errors.captcha}
                 />
-                <button
+                <Button
                   type="button"
+                  variant="secondary"
+                  size="sm"
                   onClick={() => void loadCaptcha()}
-                  className="shrink-0 rounded-xl border border-neutral-300 bg-white px-3 text-neutral-600 transition hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2"
                   aria-label="Muat soal baru"
                   title="Soal baru"
+                  leftIcon={ArrowsClockwise}
+                  className="shrink-0 self-center px-3"
                 >
-                  <Icon icon={ArrowsClockwise} size={18} />
-                </button>
+                  {""}
+                </Button>
               </div>
             </>
           ) : (
@@ -279,9 +282,6 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
             </div>
           )}
         </div>
-        {errors.captcha && (
-          <p className="mt-1.5 text-xs text-red-600">{errors.captcha}</p>
-        )}
       </div>
 
       <Checkbox

@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Check } from "@phosphor-icons/react/dist/ssr";
 import { Icon } from "@kahade/ui";
 import EquityNotice from "@/components/site/EquityNotice";
+import ButtonLink from "@/components/site/ButtonLink";
 import { getPosting, getPostings, type JobPostingDetail } from "@/lib/api";
 import { renderMarkdown } from "@/lib/markdown";
 
@@ -51,8 +52,31 @@ export default async function JobDetailPage({ params }: PageProps) {
   }
   if (!posting) notFound();
 
+  // JSON-LD schema.org/JobPosting — syarat tampil di Google for Jobs.
+  const jobPostingJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    title: posting.title,
+    description: posting.summary,
+    employmentType: posting.type,
+    jobLocation: {
+      "@type": "Place",
+      address: posting.location,
+    },
+    hiringOrganization: {
+      "@type": "Organization",
+      name: "PT Kawal Hak Dengan Aman",
+      sameAs: "https://kahade.id",
+    },
+    ...(posting.publishedAt ? { datePosted: posting.publishedAt } : {}),
+  };
+
   return (
     <div className="mx-auto max-w-3xl px-5 py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostingJsonLd) }}
+      />
       <Link
         href="/#lowongan"
         className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-500 transition hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black rounded"
@@ -110,12 +134,9 @@ export default async function JobDetailPage({ params }: PageProps) {
         <p className="mt-1 text-sm text-neutral-500">
           Isi formulir lamaran — butuh beberapa menit saja.
         </p>
-        <Link
-          href={`/lamar/${posting.slug}`}
-          className="mt-5 inline-block rounded-full bg-black px-8 py-3.5 text-sm font-bold text-white transition hover:bg-neutral-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:scale-[0.98]"
-        >
+        <ButtonLink href={`/lamar/${posting.slug}`} className="mt-5">
           Lamar posisi ini
-        </Link>
+        </ButtonLink>
       </div>
     </div>
   );

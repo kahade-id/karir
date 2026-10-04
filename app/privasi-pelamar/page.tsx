@@ -36,6 +36,7 @@ const SECTIONS: { title: string; body: string[] }[] = [
     body: [
       "Data lamaran disimpan di server Kahade dan diakses hanya oleh pihak yang berwenang melakukan rekrutmen.",
       "Lamaran yang DITOLAK dihapus otomatis maksimal 90 hari setelah keputusan penolakan, beserta file CV-nya.",
+      "Lamaran yang masih DALAM PROSES disimpan sampai ada keputusan, lalu mengikuti aturan 90 hari di atas bila tidak lolos.",
       "Lamaran yang DITERIMA disimpan sebagai arsip kepegawaian sesuai ketentuan ketenagakerjaan yang berlaku.",
       "Kamu dapat menghapus lamaranmu kapan saja dengan token penghapusan yang diberikan setelah melamar — tanpa perlu akun.",
     ],
@@ -80,6 +81,7 @@ export default function PrivacyPage() {
         {SECTIONS.map((s) => (
           <section
             key={s.title}
+            aria-label={s.title}
             className="rounded-2xl border border-neutral-200 bg-white px-6 py-5"
           >
             <h2 className="text-base font-bold text-black">{s.title}</h2>

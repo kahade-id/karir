@@ -5,6 +5,7 @@ import { CheckCircle, Eye, EyeSlash } from "@phosphor-icons/react";
 import { Button, CopyButton, Icon } from "@kahade/ui";
 import { useState } from "react";
 import { useSubmission } from "@/components/apply/SubmissionStore";
+import ButtonLink from "@/components/site/ButtonLink";
 
 export default function SuccessContent() {
   const { result } = useSubmission();
@@ -76,12 +77,7 @@ export default function SuccessContent() {
       </div>
 
       <div className="mt-8 text-center">
-        <Link
-          href="/"
-          className="inline-block rounded-full bg-black px-8 py-3 text-sm font-bold text-white transition hover:bg-neutral-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:scale-[0.98]"
-        >
-          Kembali ke beranda
-        </Link>
+        <ButtonLink href="/">Kembali ke beranda</ButtonLink>
       </div>
     </div>
   );

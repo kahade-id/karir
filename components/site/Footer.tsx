@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "@kahade/ui";
 
 const SIBLINGS = [
   { label: "Legalitas", href: "https://legal.kahade.id" },
@@ -15,10 +16,9 @@ export default function Footer() {
       <div className="mx-auto max-w-4xl px-5 py-8 text-sm text-neutral-600">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2.5">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.svg" alt="Logo Kahade" className="h-6 w-6" />
+            <Logo size={24} />
             <span className="font-semibold text-black">Kahade</span>
-            <span className="text-neutral-400">—</span>
+            <span className="text-neutral-500">—</span>
             <span>PT Kawal Hak Dengan Aman</span>
           </div>
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
@@ -33,17 +33,12 @@ export default function Footer() {
                 {l.label}
               </a>
             ))}
-            <a
-              href="https://kahade.id"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-black"
-            >
+            <a href="https://kahade.id" className="hover:text-black">
               kahade.id
             </a>
           </nav>
         </div>
-        <p className="mt-6 border-t border-neutral-100 pt-4 text-xs text-neutral-400">
+        <p className="mt-6 border-t border-neutral-100 pt-4 text-xs text-neutral-500">
           © {year} PT Kawal Hak Dengan Aman. Hak cipta dilindungi.
         </p>
       </div>

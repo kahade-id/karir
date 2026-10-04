@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Logo } from "@kahade/ui";
 import EquityNotice from "@/components/site/EquityNotice";
 import JobList from "@/components/jobs/JobList";
 import { getPostings } from "@/lib/api";
@@ -47,8 +48,7 @@ export default async function HomePage() {
     <div className="mx-auto max-w-4xl px-5 py-10 sm:py-14">
       {/* Hero */}
       <section className="py-6 text-center sm:py-10">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo.svg" alt="Logo Kahade" className="mx-auto h-14 w-14" />
+        <Logo size={56} className="mx-auto" />
         <h1 className="mt-6 text-balance text-3xl font-bold tracking-tight text-black sm:text-4xl">
           Bangun Kahade bareng kami.
         </h1>
