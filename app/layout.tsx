@@ -1,18 +1,15 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import { SubmissionProvider } from "@/components/apply/SubmissionStore";
 
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  // Bobot eksplisit: variable font memuat 200–800, tapi daftarkan yang
-  // dipakai agar jelas dan tahan terhadap perubahan perilaku next/font.
-  weight: ["400", "500", "600", "700", "800"],
-  display: "swap",
-  variable: "--font-jakarta",
-});
+// Font brand: Plus Jakarta Sans, dimuat dari Google Fonts CDN.
+// (Sebelumnya via next/font self-hosted — gagal render di sebagian perangkat
+// Android: file valid & 200 tapi browser jatuh ke fallback. CDN terbukti tampil
+// benar di perangkat yang terdampak, jadi pakai jalur yang terbukti.)
+const GOOGLE_FONTS_URL =
+  "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap";
 
 export const metadata: Metadata = {
   title: {
@@ -43,7 +40,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id">
-      <body className={jakarta.variable}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link rel="stylesheet" href={GOOGLE_FONTS_URL} />
+      </head>
+      <body>
         <SubmissionProvider>
           <div className="flex min-h-screen flex-col bg-white text-black">
             <Header />
