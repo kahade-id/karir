@@ -5,7 +5,13 @@ import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 import { Icon } from "@kahade/ui";
 import EquityNotice from "@/components/site/EquityNotice";
 import ApplicationForm from "@/components/apply/ApplicationForm";
-import { getPosting, getPostings, type JobPostingDetail } from "@/lib/api";
+import PostingLoadError from "@/components/jobs/PostingLoadError";
+import {
+  ApiError,
+  getPosting,
+  getPostings,
+  type JobPostingDetail,
+} from "@/lib/api";
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -26,10 +32,17 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   let posting: JobPostingDetail | null = null;
+  let loadFailed = false;
   try {
     posting = await getPosting(slug);
-  } catch {
-    posting = null;
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 404) {
+      return { title: "Lamar — posisi tidak ditemukan" };
+    }
+    loadFailed = true;
+  }
+  if (loadFailed) {
+    return { title: "Lamar — gagal memuat" };
   }
   if (!posting) {
     return { title: "Lamar — posisi tidak ditemukan" };
@@ -45,11 +58,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function ApplyPage({ params }: PageProps) {
   const { slug } = await params;
   let posting: JobPostingDetail | null = null;
+  let loadFailed = false;
   try {
     posting = await getPosting(slug);
-  } catch {
-    posting = null;
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 404) notFound();
+    loadFailed = true;
   }
+  if (loadFailed) return <PostingLoadError retryHref={`/lamar/${slug}`} />;
   if (!posting) notFound();
 
   return (

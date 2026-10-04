@@ -4,6 +4,7 @@ import { ButtonLink } from "@kahade/ui";
 export const metadata: Metadata = {
   title: "Halaman tidak ditemukan",
   description: "Halaman yang kamu cari tidak ada di situs karir Kahade.",
+  alternates: { canonical: "/" },
 };
 
 export default function NotFound() {

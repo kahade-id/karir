@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Hapus lamaran",
   description:
     "Hapus lamaran kerja kamu ke Kahade beserta file CV menggunakan token penghapusan.",
+  alternates: { canonical: "/hapus-lamaran" },
   robots: { index: false, follow: false },
 };
 

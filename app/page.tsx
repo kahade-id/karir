@@ -38,10 +38,12 @@ const FAQS = [
 
 export default async function HomePage() {
   let postings: Awaited<ReturnType<typeof getPostings>> = [];
+  let loadError = false;
   try {
     postings = await getPostings();
   } catch {
     postings = [];
+    loadError = true;
   }
 
   // JSON-LD schema.org/Organization — identitas PT di homepage.
@@ -89,7 +91,7 @@ export default async function HomePage() {
           Lowongan terbuka
         </h2>
         <div className="mt-5">
-          <JobList postings={postings} />
+          <JobList postings={postings} error={loadError} />
         </div>
       </section>
 

@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Lamaran terkirim",
   description:
     "Konfirmasi lamaran kamu ke Kahade — simpan token penghapusan data.",
+  alternates: { canonical: "/sukses" },
   robots: { index: false, follow: false },
 };
 

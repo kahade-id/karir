@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { Alert, Button, FieldError, Input } from "@kahade/ui";
+import { Alert, Button, Input } from "@kahade/ui";
 import { ApiError, deleteApplication } from "@/lib/api";
 
 type Phase = "input" | "confirm" | "done";
@@ -76,19 +76,22 @@ export default function DeleteApplicationForm() {
 
       {phase === "input" ? (
         <form onSubmit={handleCheck} className="space-y-4">
-          <div>
-            <Input
-              label="Token penghapusan"
-              value={token}
-              onChange={(e) => setToken(e.target.value)}
-              placeholder="Tempel token penghapusan di sini"
-              autoComplete="off"
-              spellCheck={false}
-              error={error && !token.trim() ? " " : undefined}
-            />
-            {error && !token.trim() && <FieldError>{error}</FieldError>}
-          </div>
-          <Button type="submit" variant="danger" className="w-full">
+          <Input
+            id="deletion-token"
+            label="Token penghapusan"
+            required
+            value={token}
+            onChange={(e) => setToken(e.target.value)}
+            placeholder="Tempel token penghapusan di sini"
+            autoComplete="off"
+            spellCheck={false}
+          />
+          <Button
+            type="submit"
+            variant="danger"
+            className="w-full"
+            disabled={!token.trim()}
+          >
             Lanjut hapus lamaran
           </Button>
           <p className="text-center text-xs leading-relaxed text-neutral-500">

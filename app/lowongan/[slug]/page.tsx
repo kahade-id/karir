@@ -4,7 +4,13 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Check } from "@phosphor-icons/react/dist/ssr";
 import { Badge, ButtonLink, Icon } from "@kahade/ui";
 import EquityNotice from "@/components/site/EquityNotice";
-import { getPosting, getPostings, type JobPostingDetail } from "@/lib/api";
+import PostingLoadError from "@/components/jobs/PostingLoadError";
+import {
+  ApiError,
+  getPosting,
+  getPostings,
+  type JobPostingDetail,
+} from "@/lib/api";
 import { renderMarkdown } from "@/lib/markdown";
 
 export const revalidate = 60;
@@ -26,10 +32,17 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   let posting: JobPostingDetail | null = null;
+  let loadFailed = false;
   try {
     posting = await getPosting(slug);
-  } catch {
-    posting = null;
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 404) {
+      return { title: "Lowongan tidak ditemukan" };
+    }
+    loadFailed = true;
+  }
+  if (loadFailed) {
+    return { title: "Gagal memuat lowongan" };
   }
   if (!posting) {
     return { title: "Lowongan tidak ditemukan" };
@@ -44,11 +57,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function JobDetailPage({ params }: PageProps) {
   const { slug } = await params;
   let posting: JobPostingDetail | null = null;
+  let loadFailed = false;
   try {
     posting = await getPosting(slug);
-  } catch {
-    posting = null;
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 404) notFound();
+    loadFailed = true;
   }
+  if (loadFailed) return <PostingLoadError retryHref={`/lowongan/${slug}`} />;
   if (!posting) notFound();
 
   // JSON-LD schema.org/JobPosting — syarat tampil di Google for Jobs.

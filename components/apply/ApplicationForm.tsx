@@ -81,7 +81,12 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
     if (!consent)
       e.consent =
         "Centang persetujuan dulu untuk melanjutkan.";
-    if (captchaAnswer.trim().length === 0)
+    if (captchaLoading)
+      e.captcha = "Soal verifikasi masih dimuat — tunggu sebentar lalu coba lagi.";
+    else if (!captcha)
+      e.captcha =
+        "Soal verifikasi gagal dimuat. Tekan “Coba lagi” di atas untuk memuat soal baru.";
+    else if (captchaAnswer.trim().length === 0)
       e.captcha = "Isi jawaban verifikasi di atas.";
     return e;
   };
@@ -238,7 +243,10 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
         </span>
         <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-4">
           {captchaLoading ? (
-            <p className="text-sm text-neutral-500">Memuat soal verifikasi…</p>
+            <div>
+              <p className="text-sm text-neutral-500">Memuat soal verifikasi…</p>
+              {errors.captcha && <FieldError>{errors.captcha}</FieldError>}
+            </div>
           ) : captcha ? (
             <>
               <p className="text-sm font-medium text-black">{captcha.question}</p>
@@ -267,18 +275,23 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
               </div>
             </>
           ) : (
-            <div className="flex items-center justify-between gap-3">
-              <p className="text-sm text-neutral-500">
-                Soal verifikasi gagal dimuat.
-              </p>
-              <Button
-                type="button"
-                variant="secondary"
-                size="sm"
-                onClick={() => void loadCaptcha()}
-              >
-                Coba lagi
-              </Button>
+            <div>
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-sm text-neutral-500">
+                  Soal verifikasi gagal dimuat.
+                </p>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => void loadCaptcha()}
+                >
+                  Coba lagi
+                </Button>
+              </div>
+              {errors.captcha && (
+                <FieldError>{errors.captcha}</FieldError>
+              )}
             </div>
           )}
         </div>
