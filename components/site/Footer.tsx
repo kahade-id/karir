@@ -21,22 +21,22 @@ export default function Footer() {
             <span className="text-neutral-500">—</span>
             <span>PT Kawal Hak Dengan Aman</span>
           </div>
-          <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <Link href="/#lowongan" className="hover:text-black">
+          <nav className="flex flex-wrap items-center gap-x-5 gap-y-1">
+            <Link href="/#lowongan" className="inline-flex items-center py-3 hover:text-black">
               Lowongan
             </Link>
-            <Link href="/privasi-pelamar" className="hover:text-black">
+            <Link href="/privasi-pelamar" className="inline-flex items-center py-3 hover:text-black">
               Kebijakan privasi pelamar
             </Link>
-            <Link href="/hapus-lamaran" className="hover:text-black">
+            <Link href="/hapus-lamaran" className="inline-flex items-center py-3 hover:text-black">
               Hapus lamaran
             </Link>
             {SIBLINGS.map((l) => (
-              <a key={l.href} href={l.href} className="hover:text-black">
+              <a key={l.href} href={l.href} className="inline-flex items-center py-3 hover:text-black">
                 {l.label}
               </a>
             ))}
-            <a href="https://kahade.id" className="hover:text-black">
+            <a href="https://kahade.id" className="inline-flex items-center py-3 hover:text-black">
               kahade.id
             </a>
           </nav>

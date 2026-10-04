@@ -44,8 +44,30 @@ export default async function HomePage() {
     postings = [];
   }
 
+  // JSON-LD schema.org/Organization — identitas PT di homepage.
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "PT Kawal Hak Dengan Aman",
+    url: "https://karir.kahade.id",
+    logo: "https://karir.kahade.id/logo.svg",
+    sameAs: [
+      "https://kahade.id",
+      "https://karir.kahade.id",
+      "https://legal.kahade.id",
+      "https://bantuan.kahade.id",
+      "https://status.kahade.id",
+      "https://investor.kahade.id",
+      "https://artikel.kahade.id",
+    ],
+  };
+
   return (
     <div className="mx-auto max-w-4xl px-5 py-10 sm:py-14">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
       {/* Hero */}
       <section className="py-6 text-center sm:py-10">
         <Logo size={56} className="mx-auto" />

@@ -56,7 +56,7 @@ export default async function ApplyPage({ params }: PageProps) {
     <div className="mx-auto max-w-2xl px-5 py-10">
       <Link
         href={`/lowongan/${posting.slug}`}
-        className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-500 transition hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black rounded"
+        className="inline-flex items-center gap-1.5 py-2 text-sm font-medium text-neutral-500 transition hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black rounded"
       >
         <Icon icon={ArrowLeft} size={16} /> Kembali ke detail lowongan
       </Link>

@@ -78,7 +78,7 @@ export default async function JobDetailPage({ params }: PageProps) {
       />
       <Link
         href="/#lowongan"
-        className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-500 transition hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black rounded"
+        className="inline-flex items-center gap-1.5 py-2 text-sm font-medium text-neutral-500 transition hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black rounded"
       >
         <Icon icon={ArrowLeft} size={16} /> Semua lowongan
       </Link>

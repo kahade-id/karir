@@ -260,7 +260,7 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
                   aria-label="Muat soal baru"
                   title="Soal baru"
                   leftIcon={ArrowsClockwise}
-                  className="shrink-0 self-center px-3"
+                  className="shrink-0 self-center min-h-[44px] min-w-[44px] px-3"
                 >
                   {""}
                 </Button>
