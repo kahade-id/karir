@@ -1,24 +1,16 @@
 import { Briefcase } from "@phosphor-icons/react/dist/ssr";
+import { EmptyState } from "@kahade/ui";
 import JobCard from "@/components/jobs/JobCard";
 import type { JobPostingSummary } from "@/lib/api";
 
 export default function JobList({ postings }: { postings: JobPostingSummary[] }) {
   if (postings.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-neutral-300 bg-white px-6 py-14 text-center">
-        <Briefcase
-          size={32}
-          className="mx-auto text-neutral-300"
-          aria-hidden
-        />
-        <p className="mt-4 text-lg font-bold text-black">
-          Belum ada lowongan terbuka
-        </p>
-        <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-neutral-500">
-          Saat ini belum ada posisi yang dibuka. Cek kembali lain waktu — kami
-          akan menambah posisi baru di sini.
-        </p>
-      </div>
+      <EmptyState
+        icon={Briefcase}
+        title="Belum ada lowongan terbuka"
+        description="Saat ini belum ada posisi yang dibuka. Cek kembali lain waktu — kami akan menambah posisi baru di sini."
+      />
     );
   }
 

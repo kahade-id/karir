@@ -1,36 +1,21 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { CheckCircle, Copy, Eye, EyeSlash } from "@phosphor-icons/react/dist/ssr";
+import { CheckCircle, Eye, EyeSlash } from "@phosphor-icons/react";
+import { Button, CopyButton, Icon } from "@kahade/ui";
+import { useState } from "react";
 import { useSubmission } from "@/components/apply/SubmissionStore";
 
 export default function SuccessContent() {
   const { result } = useSubmission();
-  const [copied, setCopied] = useState(false);
   const [revealed, setRevealed] = useState(false);
 
   const token = result?.deletionToken;
 
-  const copyToken = async () => {
-    if (!token) return;
-    try {
-      await navigator.clipboard.writeText(token);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // clipboard API tidak tersedia — pengguna bisa salin manual
-    }
-  };
-
   return (
     <div className="mx-auto max-w-2xl px-5 py-12 sm:py-16">
       <div className="text-center">
-        <CheckCircle
-          size={56}
-          className="mx-auto text-black"
-          aria-hidden
-        />
+        <Icon icon={CheckCircle} size={56} className="mx-auto text-black" />
         <h1 className="mt-5 text-2xl font-bold tracking-tight text-black sm:text-3xl">
           Lamaran terkirim.
         </h1>
@@ -51,29 +36,16 @@ export default function SuccessContent() {
             </code>
           </div>
           <div className="mt-3 flex flex-wrap gap-2">
-            <button
+            <Button
               type="button"
+              variant="secondary"
+              size="sm"
+              leftIcon={revealed ? EyeSlash : Eye}
               onClick={() => setRevealed((v) => !v)}
-              className="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 bg-white px-4 py-2 text-xs font-semibold text-black transition hover:border-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:scale-[0.97]"
             >
-              {revealed ? (
-                <>
-                  <EyeSlash size={16} aria-hidden /> Sembunyikan
-                </>
-              ) : (
-                <>
-                  <Eye size={16} aria-hidden /> Tampilkan
-                </>
-              )}
-            </button>
-            <button
-              type="button"
-              onClick={copyToken}
-              className="inline-flex items-center gap-1.5 rounded-full bg-black px-4 py-2 text-xs font-semibold text-white transition hover:bg-neutral-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:scale-[0.97]"
-            >
-              <Copy size={16} aria-hidden />
-              {copied ? "Tersalin!" : "Salin token"}
-            </button>
+              {revealed ? "Sembunyikan" : "Tampilkan"}
+            </Button>
+            <CopyButton text={token} label="Salin token" />
           </div>
           <p className="mt-4 text-sm leading-relaxed text-neutral-600">
             Token ini satu-satunya cara menghapus lamaranmu (beserta CV) kapan

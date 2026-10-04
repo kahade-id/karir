@@ -11,9 +11,11 @@ export default function Header() {
             Kahade <span className="font-medium text-neutral-500">Karier</span>
           </span>
         </Link>
+        {/* Link navigasi: <a> dengan visual tombol DS primary/sm.
+            (Button DS hanya me-render <button>; <button> di dalam <a> invalid.) */}
         <Link
           href="/#lowongan"
-          className="rounded-full bg-black px-4 py-2 text-sm font-semibold text-white transition hover:bg-neutral-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:scale-[0.97]"
+          className="inline-flex items-center justify-center rounded-full bg-black px-4 py-2 text-sm font-semibold text-white transition-all duration-150 hover:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2 active:scale-[0.97]"
         >
           Lihat lowongan
         </Link>

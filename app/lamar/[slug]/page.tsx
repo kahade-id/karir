@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
+import { Icon } from "@kahade/ui";
 import EquityNotice from "@/components/site/EquityNotice";
 import ApplicationForm from "@/components/apply/ApplicationForm";
 import { getPosting, getPostings, type JobPostingDetail } from "@/lib/api";
@@ -57,7 +58,7 @@ export default async function ApplyPage({ params }: PageProps) {
         href={`/lowongan/${posting.slug}`}
         className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-500 transition hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black rounded"
       >
-        <ArrowLeft size={16} aria-hidden /> Kembali ke detail lowongan
+        <Icon icon={ArrowLeft} size={16} /> Kembali ke detail lowongan
       </Link>
 
       <header className="mt-6">

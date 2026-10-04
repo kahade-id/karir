@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
+import { Icon } from "@kahade/ui";
 import type { JobPostingSummary } from "@/lib/api";
 
 export default function JobCard({ posting }: { posting: JobPostingSummary }) {
@@ -19,10 +20,10 @@ export default function JobCard({ posting }: { posting: JobPostingSummary }) {
         </div>
         <span className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-black">
           Detail
-          <ArrowRight
+          <Icon
+            icon={ArrowRight}
             size={16}
             className="transition-transform group-hover:translate-x-0.5"
-            aria-hidden
           />
         </span>
       </div>

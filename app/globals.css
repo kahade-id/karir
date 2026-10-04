@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "@kahade/ui/tokens.css";
+@import "@kahade/ui/styles/base.css";
 
 @theme {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;

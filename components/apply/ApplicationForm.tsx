@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowsClockwise } from "@phosphor-icons/react/dist/ssr";
+import { ArrowsClockwise } from "@phosphor-icons/react";
+import { Alert, Button, Checkbox, Icon, Input, Textarea } from "@kahade/ui";
 import CvUpload, { type CvUploadState } from "@/components/apply/CvUpload";
 import { useSubmission } from "@/components/apply/SubmissionStore";
 import {
@@ -12,9 +13,6 @@ import {
   type CaptchaChallenge,
   type JobPostingDetail,
 } from "@/lib/api";
-
-const inputCls =
-  "w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm text-black placeholder:text-neutral-400 outline-none transition focus:border-black focus:ring-[3px] focus:ring-black/5";
 
 interface FormErrors {
   fullName?: string;
@@ -123,72 +121,50 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
     }
   };
 
-  const errText = (msg?: string) =>
-    msg ? <p className="mt-1.5 text-xs text-red-600">{msg}</p> : null;
-
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-5">
-      {errors.submit && (
-        <div
-          role="alert"
-          className="rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700"
-        >
-          {errors.submit}
-        </div>
-      )}
+      {errors.submit && <Alert variant="danger">{errors.submit}</Alert>}
 
-      <div>
-        <label htmlFor="fullName" className="mb-1.5 block text-sm font-semibold text-black">
-          Nama lengkap *
-        </label>
-        <input
-          id="fullName"
-          type="text"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          placeholder="Nama kamu"
-          autoComplete="name"
-          className={inputCls}
-        />
-        {errText(errors.fullName)}
-      </div>
+      <Input
+        id="fullName"
+        label="Nama lengkap"
+        required
+        type="text"
+        value={fullName}
+        onChange={(e) => setFullName(e.target.value)}
+        placeholder="Nama kamu"
+        autoComplete="name"
+        error={errors.fullName}
+      />
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <div>
-          <label htmlFor="email" className="mb-1.5 block text-sm font-semibold text-black">
-            Email *
-          </label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="nama@email.com"
-            autoComplete="email"
-            className={inputCls}
-          />
-          {errText(errors.email)}
-        </div>
-        <div>
-          <label htmlFor="phone" className="mb-1.5 block text-sm font-semibold text-black">
-            Nomor HP *
-          </label>
-          <input
-            id="phone"
-            type="tel"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="0812xxxxxxx"
-            autoComplete="tel"
-            className={inputCls}
-          />
-          {errText(errors.phone)}
-        </div>
+        <Input
+          id="email"
+          label="Email"
+          required
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="nama@email.com"
+          autoComplete="email"
+          error={errors.email}
+        />
+        <Input
+          id="phone"
+          label="Nomor HP"
+          required
+          type="tel"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          placeholder="0812xxxxxxx"
+          autoComplete="tel"
+          error={errors.phone}
+        />
       </div>
 
       <div>
         <span className="mb-1.5 block text-sm font-semibold text-black">
-          CV (PDF) *
+          CV (PDF) <span className="text-red-600"> *</span>
         </span>
         <CvUpload
           onChange={(s) => {
@@ -198,44 +174,37 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
           onError={setCvError}
           disabled={submitting}
         />
-        {errText(errors.cv)}
-        {cvError && !errors.cv && errText(cvError)}
+        {(errors.cv ?? cvError) && (
+          <p className="mt-1.5 text-xs text-red-600">{errors.cv ?? cvError}</p>
+        )}
       </div>
 
-      <div>
-        <label htmlFor="portfolio" className="mb-1.5 block text-sm font-semibold text-black">
-          Portofolio <span className="font-normal text-neutral-500">(opsional)</span>
-        </label>
-        <input
-          id="portfolio"
-          type="url"
-          value={portfolioUrl}
-          onChange={(e) => setPortfolioUrl(e.target.value)}
-          placeholder="https://…"
-          className={inputCls}
-        />
-        {errText(errors.portfolioUrl)}
-      </div>
+      <Input
+        id="portfolio"
+        label="Portofolio"
+        hint="Opsional"
+        type="url"
+        value={portfolioUrl}
+        onChange={(e) => setPortfolioUrl(e.target.value)}
+        placeholder="https://…"
+        error={errors.portfolioUrl}
+      />
 
       <div>
-        <label htmlFor="coverNote" className="mb-1.5 block text-sm font-semibold text-black">
-          Cover note <span className="font-normal text-neutral-500">(opsional, maks 2000 karakter)</span>
-        </label>
-        <textarea
+        <Textarea
           id="coverNote"
+          label="Cover note"
+          hint="Opsional, maks 2000 karakter"
           value={coverNote}
           onChange={(e) => setCoverNote(e.target.value)}
           rows={5}
           maxLength={2000}
           placeholder="Ceritakan singkat kenapa kamu cocok untuk posisi ini…"
-          className={`${inputCls} resize-y`}
+          error={errors.coverNote}
         />
-        <div className="mt-1.5 flex items-center justify-between">
-          <div>{errText(errors.coverNote)}</div>
-          <span className="text-xs text-neutral-400">
-            {coverNote.length}/2000
-          </span>
-        </div>
+        <p className="mt-1.5 text-right text-xs text-neutral-400">
+          {coverNote.length}/2000
+        </p>
       </div>
 
       {/* Honeypot anti-bot — disembunyikan dari manusia */}
@@ -253,7 +222,7 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
 
       <div>
         <span className="mb-1.5 block text-sm font-semibold text-black">
-          Verifikasi *
+          Verifikasi <span className="text-red-600"> *</span>
         </span>
         <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-4">
           {captchaLoading ? (
@@ -268,17 +237,17 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
                   onChange={(e) => setCaptchaAnswer(e.target.value)}
                   placeholder="Jawaban"
                   autoComplete="off"
-                  className={inputCls}
                   aria-label="Jawaban verifikasi"
+                  className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm text-black placeholder:text-neutral-400 outline-none transition focus:border-black focus:ring-[3px] focus:ring-black/5"
                 />
                 <button
                   type="button"
                   onClick={() => void loadCaptcha()}
-                  className="shrink-0 rounded-xl border border-neutral-300 bg-white px-3 text-neutral-600 transition hover:text-black"
+                  className="shrink-0 rounded-xl border border-neutral-300 bg-white px-3 text-neutral-600 transition hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2"
                   aria-label="Muat soal baru"
                   title="Soal baru"
                 >
-                  <ArrowsClockwise size={18} aria-hidden />
+                  <Icon icon={ArrowsClockwise} size={18} />
                 </button>
               </div>
             </>
@@ -287,44 +256,41 @@ export default function ApplicationForm({ posting }: { posting: JobPostingDetail
               <p className="text-sm text-neutral-500">
                 Soal verifikasi gagal dimuat.
               </p>
-              <button
+              <Button
                 type="button"
+                variant="secondary"
+                size="sm"
                 onClick={() => void loadCaptcha()}
-                className="shrink-0 rounded-full border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-black"
               >
                 Coba lagi
-              </button>
+              </Button>
             </div>
           )}
         </div>
-        {errText(errors.captcha)}
+        {errors.captcha && (
+          <p className="mt-1.5 text-xs text-red-600">{errors.captcha}</p>
+        )}
       </div>
 
-      <div>
-        <label className="flex cursor-pointer items-start gap-3">
-          <input
-            type="checkbox"
-            checked={consent}
-            onChange={(e) => setConsent(e.target.checked)}
-            className="mt-1 h-4 w-4 shrink-0 accent-black"
-          />
-          <span className="text-sm leading-relaxed text-neutral-700">
-            Saya memahami skema kompensasi <strong className="text-black">tanpa
-            gaji</strong> dengan <strong className="text-black">saham/equity</strong> dan
-            kebijakan retensi data lamaran <strong className="text-black">90
-            hari</strong> setelah keputusan. *
+      <Checkbox
+        checked={consent}
+        onChange={(e) => setConsent(e.target.checked)}
+        error={errors.consent}
+        label={
+          <span>
+            Saya memahami skema kompensasi{" "}
+            <strong className="text-black">tanpa gaji</strong> dengan{" "}
+            <strong className="text-black">saham/equity</strong> dan kebijakan
+            retensi data lamaran{" "}
+            <strong className="text-black">90 hari</strong> setelah keputusan.{" "}
+            <span className="text-red-600">*</span>
           </span>
-        </label>
-        {errText(errors.consent)}
-      </div>
+        }
+      />
 
-      <button
-        type="submit"
-        disabled={submitting}
-        className="w-full rounded-full bg-black px-6 py-3.5 text-sm font-bold text-white transition hover:bg-neutral-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 disabled:active:scale-100"
-      >
+      <Button type="submit" loading={submitting} className="w-full">
         {submitting ? "Mengirim lamaran…" : "Kirim lamaran"}
-      </button>
+      </Button>
     </form>
   );
 }

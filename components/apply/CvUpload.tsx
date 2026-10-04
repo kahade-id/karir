@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { FilePdf, UploadSimple, XCircle } from "@phosphor-icons/react/dist/ssr";
+import { FilePdf, UploadSimple, XCircle } from "@phosphor-icons/react";
+import { Icon, Progress } from "@kahade/ui";
 import { uploadCv, ApiError } from "@/lib/api";
 
 const MAX_BYTES = 5 * 1024 * 1024;
@@ -85,7 +86,7 @@ export default function CvUpload({ onChange, onError, disabled }: Props) {
             disabled ? "pointer-events-none opacity-50" : ""
           }`}
         >
-          <UploadSimple size={24} className="text-black" aria-hidden />
+          <Icon icon={UploadSimple} size={24} className="text-black" />
           <span className="text-sm">
             <span className="font-semibold text-black">Pilih file CV</span>
             <span className="block text-neutral-500">
@@ -99,20 +100,10 @@ export default function CvUpload({ onChange, onError, disabled }: Props) {
         <div className="rounded-2xl border border-neutral-200 bg-white px-5 py-5">
           <div className="flex items-center justify-between gap-3 text-sm">
             <span className="truncate font-medium text-black">{fileName}</span>
-            <span className="shrink-0 font-semibold text-black">{progress}%</span>
+            <span className="shrink-0 font-semibold text-black tabular-nums">{progress}%</span>
           </div>
-          <div
-            className="mt-3 h-2 overflow-hidden rounded-full bg-neutral-200"
-            role="progressbar"
-            aria-valuenow={progress}
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-label="Progress unggah CV"
-          >
-            <div
-              className="h-full rounded-full bg-black transition-[width]"
-              style={{ width: `${progress}%` }}
-            />
+          <div className="mt-3">
+            <Progress value={progress} aria-label="Progress unggah CV" />
           </div>
           <p className="mt-2 text-xs text-neutral-500">Mengunggah CV…</p>
         </div>
@@ -121,7 +112,7 @@ export default function CvUpload({ onChange, onError, disabled }: Props) {
       {status === "done" && (
         <div className="flex items-center justify-between gap-3 rounded-2xl border border-neutral-200 bg-neutral-50 px-5 py-4">
           <div className="flex min-w-0 items-center gap-3">
-            <FilePdf size={24} className="shrink-0 text-black" aria-hidden />
+            <Icon icon={FilePdf} size={24} className="shrink-0 text-black" />
             <span className="truncate text-sm font-medium text-black">
               {fileName}
             </span>
@@ -130,9 +121,9 @@ export default function CvUpload({ onChange, onError, disabled }: Props) {
             type="button"
             onClick={reset}
             disabled={disabled}
-            className="flex shrink-0 items-center gap-1 text-sm font-medium text-neutral-500 hover:text-black disabled:opacity-50"
+            className="flex shrink-0 items-center gap-1 text-sm font-medium text-neutral-500 transition-colors hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2 disabled:opacity-50"
           >
-            <XCircle size={18} aria-hidden /> Ganti
+            <Icon icon={XCircle} size={18} /> Ganti
           </button>
         </div>
       )}

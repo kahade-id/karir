@@ -11,6 +11,7 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  transpilePackages: ["@kahade/ui"],
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
