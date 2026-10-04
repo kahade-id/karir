@@ -103,7 +103,7 @@ export default function CvUpload({ onChange, onError, disabled }: Props) {
             <span className="shrink-0 font-semibold text-black tabular-nums">{progress}%</span>
           </div>
           <div className="mt-3">
-            <Progress value={progress} aria-label="Progress unggah CV" />
+            <Progress value={progress} aria-label="Progres unggah CV" />
           </div>
           <p className="mt-2 text-xs text-neutral-500">Mengunggah CV…</p>
         </div>

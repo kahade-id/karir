@@ -13,7 +13,19 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   transpilePackages: ["@kahade/ui"],
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      // Aset ikon brand: tidak di-hash namanya, tapi jarang berubah — cache
+      // lama immutable. (Vercel memberi /_next/static immutable otomatis;
+      // file public/ default-nya max-age=0.)
+      {
+        source:
+          "/:file(icon-16.png|icon-32.png|icon-192.png|icon-512.png|apple-touch-icon.png|favicon.svg)",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      { source: "/:path*", headers: securityHeaders },
+    ];
   },
 };
 

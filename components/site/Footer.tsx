@@ -16,7 +16,10 @@ export default function Footer() {
       <div className="mx-auto max-w-4xl px-5 py-8 text-sm text-neutral-600">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2.5">
-            <Logo size={24} />
+            {/* Logo dekoratif: teks "Kahade" di sebelahnya sudah dibaca SR. */}
+            <span aria-hidden="true">
+              <Logo size={24} />
+            </span>
             <span className="font-semibold text-black">Kahade</span>
             <span className="text-neutral-500">—</span>
             <span>PT Kawal Hak Dengan Aman</span>

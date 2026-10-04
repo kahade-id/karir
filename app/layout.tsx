@@ -20,9 +20,16 @@ export const metadata: Metadata = {
     "Lowongan kerja startup di Kahade, aplikasi jual-beli pengguna ke pengguna yang tampilannya seperti media sosial. Tim awal tanpa gaji, dengan skema saham/equity — lihat posisi yang terbuka.",
   metadataBase: new URL("https://karir.kahade.id"),
   icons: {
-    icon: "/favicon.svg",
-    apple: "/logo.svg",
+    // PNG berukuran eksplisit untuk tab browser; SVG tetap sebagai fallback
+    // modern. apple-touch-icon WAJIB PNG 180×180 (SVG tidak valid di sini).
+    icon: [
+      { url: "/icon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-touch-icon.png",
   },
+  manifest: "/manifest.webmanifest",
   openGraph: {
     type: "website",
     locale: "id_ID",
