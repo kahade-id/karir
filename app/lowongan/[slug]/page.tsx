@@ -54,13 +54,13 @@ export default async function JobDetailPage({ params }: PageProps) {
     <div className="mx-auto max-w-3xl px-5 py-10">
       <Link
         href="/#lowongan"
-        className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-500 transition hover:text-black"
+        className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-500 transition hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black rounded"
       >
         <ArrowLeft size={16} aria-hidden /> Semua lowongan
       </Link>
 
       <header className="mt-6">
-        <h1 className="text-3xl font-bold tracking-tight text-black sm:text-4xl">
+        <h1 className="text-balance text-3xl font-bold tracking-tight text-black sm:text-4xl">
           {posting.title}
         </h1>
         <p className="mt-2 text-sm text-neutral-500">
@@ -92,7 +92,6 @@ export default async function JobDetailPage({ params }: PageProps) {
               <li key={i} className="flex items-start gap-2.5 text-sm leading-relaxed text-neutral-700">
                 <Check
                   size={18}
-                  weight="bold"
                   className="mt-0.5 shrink-0 text-black"
                   aria-hidden
                 />
@@ -112,7 +111,7 @@ export default async function JobDetailPage({ params }: PageProps) {
         </p>
         <Link
           href={`/lamar/${posting.slug}`}
-          className="mt-5 inline-block rounded-full bg-black px-8 py-3.5 text-sm font-bold text-white transition hover:bg-neutral-800"
+          className="mt-5 inline-block rounded-full bg-black px-8 py-3.5 text-sm font-bold text-white transition hover:bg-neutral-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:scale-[0.98]"
         >
           Lamar posisi ini
         </Link>

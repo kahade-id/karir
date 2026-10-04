@@ -28,7 +28,6 @@ export default function SuccessContent() {
       <div className="text-center">
         <CheckCircle
           size={56}
-          weight="fill"
           className="mx-auto text-black"
           aria-hidden
         />
@@ -55,7 +54,7 @@ export default function SuccessContent() {
             <button
               type="button"
               onClick={() => setRevealed((v) => !v)}
-              className="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 bg-white px-4 py-2 text-xs font-semibold text-black transition hover:border-black"
+              className="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 bg-white px-4 py-2 text-xs font-semibold text-black transition hover:border-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:scale-[0.97]"
             >
               {revealed ? (
                 <>
@@ -70,7 +69,7 @@ export default function SuccessContent() {
             <button
               type="button"
               onClick={copyToken}
-              className="inline-flex items-center gap-1.5 rounded-full bg-black px-4 py-2 text-xs font-semibold text-white transition hover:bg-neutral-800"
+              className="inline-flex items-center gap-1.5 rounded-full bg-black px-4 py-2 text-xs font-semibold text-white transition hover:bg-neutral-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:scale-[0.97]"
             >
               <Copy size={16} aria-hidden />
               {copied ? "Tersalin!" : "Salin token"}
@@ -107,7 +106,7 @@ export default function SuccessContent() {
       <div className="mt-8 text-center">
         <Link
           href="/"
-          className="inline-block rounded-full bg-black px-8 py-3 text-sm font-bold text-white transition hover:bg-neutral-800"
+          className="inline-block rounded-full bg-black px-8 py-3 text-sm font-bold text-white transition hover:bg-neutral-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:scale-[0.98]"
         >
           Kembali ke beranda
         </Link>

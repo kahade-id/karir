@@ -49,7 +49,7 @@ export default async function HomePage() {
       <section className="py-6 text-center sm:py-10">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/logo.svg" alt="Logo Kahade" className="mx-auto h-14 w-14" />
-        <h1 className="mt-6 text-3xl font-bold tracking-tight text-black sm:text-4xl">
+        <h1 className="mt-6 text-balance text-3xl font-bold tracking-tight text-black sm:text-4xl">
           Bangun Kahade bareng kami.
         </h1>
         <p className="mx-auto mt-3 max-w-xl text-base leading-relaxed text-neutral-600">
@@ -80,7 +80,7 @@ export default async function HomePage() {
           {FAQS.map((f) => (
             <div
               key={f.q}
-              className="rounded-2xl border border-neutral-200 bg-white px-6 py-5"
+              className="rounded-2xl border border-neutral-200 bg-white px-6 py-5 transition-colors hover:border-neutral-300"
             >
               <dt className="text-sm font-bold text-black">{f.q}</dt>
               <dd className="mt-2 text-sm leading-relaxed text-neutral-600">

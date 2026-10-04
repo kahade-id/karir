@@ -7,6 +7,9 @@ import { SubmissionProvider } from "@/components/apply/SubmissionStore";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
+  // Bobot eksplisit: variable font memuat 200–800, tapi daftarkan yang
+  // dipakai agar jelas dan tahan terhadap perubahan perilaku next/font.
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
   variable: "--font-jakarta",
 });
