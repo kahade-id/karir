@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { ButtonLink } from "@kahade/ui";
+import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
+import { Container, EmptyState } from "@kahade/ui";
+import { LinkButton } from "@/components/ui/LinkButton";
 
 export const metadata: Metadata = {
   title: "Halaman tidak ditemukan",
@@ -7,19 +9,26 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
+/**
+ * 404 — dirender di dalam root layout (SiteHeader + SiteFooter sudah ada).
+ */
 export default function NotFound() {
   return (
-    <div className="mx-auto max-w-2xl px-5 py-24 text-center">
-      <p className="text-5xl font-bold tracking-tight text-black">404</p>
-      <h1 className="mt-4 text-xl font-bold text-black">
-        Halaman tidak ditemukan
-      </h1>
-      <p className="mt-2 text-sm text-neutral-500">
-        Mungkin alamatnya salah ketik atau halaman sudah dipindahkan.
-      </p>
-      <ButtonLink href="/" className="mt-8">
-        Kembali ke beranda
-      </ButtonLink>
-    </div>
+    <Container className="flex min-h-[60vh] items-center justify-center py-16">
+      <EmptyState
+        icon={MagnifyingGlass}
+        headingLevel={1}
+        title="Halaman tidak ditemukan"
+        description="Mungkin alamatnya salah ketik atau halaman sudah dipindahkan."
+        action={
+          <div className="flex flex-wrap justify-center gap-3">
+            <LinkButton href="/">Kembali ke beranda</LinkButton>
+            <LinkButton href="/#lowongan" variant="secondary">
+              Lihat lowongan
+            </LinkButton>
+          </div>
+        }
+      />
+    </Container>
   );
 }

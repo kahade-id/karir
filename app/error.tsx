@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { Alert, Button } from "@kahade/ui";
+import { WarningCircle } from "@phosphor-icons/react/dist/ssr";
+import { Button, Container, EmptyState } from "@kahade/ui";
 
 /**
  * Error boundary area beranda karir — tampil bila render daftar lowongan
@@ -19,16 +20,14 @@ export default function HomeError({
   }, [error]);
 
   return (
-    <div className="mx-auto max-w-2xl px-5 py-16">
-      <Alert variant="danger" title="Terjadi kesalahan.">
-        Halaman gagal dimuat. Coba lagi — bila terus gagal, kembali lagi
-        nanti.
-      </Alert>
-      <div className="mt-6">
-        <Button onClick={reset} className="w-full sm:w-auto">
-          Coba lagi
-        </Button>
-      </div>
-    </div>
+    <Container className="flex min-h-[60vh] items-center justify-center py-16">
+      <EmptyState
+        icon={WarningCircle}
+        headingLevel={1}
+        title="Terjadi kesalahan"
+        description="Halaman gagal dimuat. Coba lagi — bila terus gagal, kembali lagi nanti."
+        action={<Button onClick={reset}>Coba lagi</Button>}
+      />
+    </Container>
   );
 }

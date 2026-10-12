@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { getPosting } from "@/lib/api";
-import { BRAND_FONT_FAMILY, loadBrandFont, ZigzagMark } from "@/app/og-shared";
+import { oneLine } from "@/lib/markdown";
+import { BRAND_FONT_FAMILY, KarirLockup, loadBrandFont, OG } from "@/app/og-shared";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -41,48 +42,39 @@ export default async function JobOgImage({ params }: Props) {
           display: "flex",
           flexDirection: "column",
           padding: "64px 80px",
-          background: "#ffffff",
-          color: "#000000",
+          background: OG.bg,
+          color: OG.fg,
           fontFamily: BRAND_FONT_FAMILY,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-          <ZigzagMark size={64} />
-          {/* Satori: div dengan >1 child wajib display eksplisit. */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "baseline",
-              gap: "10px",
-              fontSize: "28px",
-              fontWeight: 800,
-              letterSpacing: "-0.5px",
-            }}
-          >
-            <span>Kahade</span>
-            <span style={{ color: "#737373", fontWeight: 500 }}>Karir</span>
-          </div>
-        </div>
+        <KarirLockup />
         <div
           style={{
-            marginTop: "36px",
-            fontSize: title.length > 30 ? 58 : 72,
+            marginTop: "56px",
+            fontSize: title.length > 30 ? 60 : 76,
             fontWeight: 800,
-            lineHeight: 1.12,
-            letterSpacing: "-2px",
+            lineHeight: 1.08,
+            letterSpacing: "-2.5px",
           }}
         >
           {title}
         </div>
-        <div style={{ marginTop: "20px", fontSize: "30px", color: "#525252" }}>
-          {meta}
+        <div
+          style={{
+            marginTop: "20px",
+            fontSize: "30px",
+            fontWeight: 500,
+            color: OG.muted,
+          }}
+        >
+          {oneLine(meta)}
         </div>
         {posting?.equity && (
-          <div style={{ marginTop: "28px", display: "flex" }}>
+          <div style={{ marginTop: "32px", display: "flex" }}>
             <div
               style={{
-                background: "#000000",
-                color: "#ffffff",
+                background: OG.fg,
+                color: OG.bg,
                 fontSize: "28px",
                 fontWeight: 800,
                 padding: "14px 30px",
@@ -94,7 +86,7 @@ export default async function JobOgImage({ params }: Props) {
           </div>
         )}
         <div style={{ flex: 1 }} />
-        <div style={{ fontSize: "24px", color: "#a3a3a3" }}>
+        <div style={{ fontSize: "24px", fontWeight: 500, color: OG.subtle }}>
           karir.kahade.id
         </div>
       </div>

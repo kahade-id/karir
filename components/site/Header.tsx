@@ -1,23 +1,26 @@
-import Link from "next/link";
-import { ButtonLink, Logo } from "@kahade/ui";
+"use client";
 
-export default function Header() {
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { SiteHeader } from "@kahade/ui";
+
+const NAV = [
+  { href: "/#lowongan", label: "Lowongan" },
+  { href: "/#skema", label: "Skema kompensasi" },
+  { href: "/#tanya-jawab", label: "Tanya jawab" },
+  { href: "/privasi-pelamar", label: "Privasi pelamar" },
+  { href: "/hapus-lamaran", label: "Hapus lamaran" },
+];
+
+export function Header() {
+  const pathname = usePathname();
   return (
-    <header className="sticky top-0 z-40 border-b border-neutral-200 bg-white/85 backdrop-blur-md">
-      <div className="mx-auto flex max-w-4xl items-center justify-between px-5 py-4">
-        <Link href="/" className="flex items-center gap-2.5">
-          {/* Logo dekoratif: teks "Kahade Karir" di sebelahnya sudah dibaca SR. */}
-          <span aria-hidden="true">
-            <Logo size={32} />
-          </span>
-          <span className="text-base font-bold tracking-tight text-black">
-            Kahade <span className="font-medium text-neutral-500">Karir</span>
-          </span>
-        </Link>
-        <ButtonLink href="/#lowongan" size="sm">
-          Lihat lowongan
-        </ButtonLink>
-      </div>
-    </header>
+    <SiteHeader
+      site="karir"
+      nav={NAV}
+      cta={{ label: "Lihat lowongan", href: "/#lowongan" }}
+      pathname={pathname}
+      linkAs={Link}
+    />
   );
 }

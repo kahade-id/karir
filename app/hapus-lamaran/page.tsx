@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumb, Container, PageHeader } from "@kahade/ui";
 import DeleteApplicationForm from "./DeleteApplicationForm";
 
 export const metadata: Metadata = {
@@ -11,17 +12,19 @@ export const metadata: Metadata = {
 
 export default function HapusLamaranPage() {
   return (
-    <div className="mx-auto max-w-2xl px-5 py-12 sm:py-16">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
-          Hapus lamaran
-        </h1>
-        <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-neutral-600">
-          Masukkan token penghapusan yang kamu terima setelah melamar. Lamaran
-          beserta file CV akan dihapus permanen dan tidak bisa dikembalikan.
-        </p>
-      </div>
-      <DeleteApplicationForm />
-    </div>
+    <>
+      <PageHeader
+        breadcrumb={
+          <Breadcrumb items={[{ label: "Karir", href: "/" }, { label: "Hapus lamaran" }]} />
+        }
+        title="Hapus lamaran"
+        lede="Masukkan token penghapusan yang kamu terima setelah melamar. Lamaran beserta file CV akan dihapus permanen dan tidak bisa dikembalikan."
+      />
+      <Container className="py-12 sm:py-16">
+        <div className="max-w-reading">
+          <DeleteApplicationForm />
+        </div>
+      </Container>
+    </>
   );
 }
