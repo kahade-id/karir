@@ -1,22 +1,63 @@
+import { LOGO_PATHS, LOGO_VIEWBOX } from "@kahade/ui";
+
 /**
- * Utilitas bersama untuk OG image (PNG 1200×630): mark zigzag brand +
- * pemuat font Plus Jakarta Sans dari Google Fonts dengan fallback aman
- * ke sans-serif bila fetch gagal (mis. saat build offline).
+ * Utilitas bersama untuk OG image (PNG 1200×630): mark Kahade + lockup
+ * "Karir" + pemuat font Plus Jakarta Sans dari Google Fonts dengan fallback
+ * aman ke sans-serif bila fetch gagal (mis. saat build offline).
+ *
+ * Gaya mengikuti Kahade Design Language v1: latar hitam, mark kuning
+ * (#FFD200 — satu-satunya tempat kuning), teks putih tebal.
  *
  * File ini BUKAN route (nama non-spesial) — hanya modul yang dipakai
  * app/opengraph-image.tsx dan app/lowongan/[slug]/opengraph-image.tsx.
  */
 
-/** Mark zigzag kuning #FFD200 — aset brand Kahade. */
-export function ZigzagMark({ size = 72 }: { size?: number }) {
+/** Warna OG (ImageResponse tidak membaca token CSS). */
+export const OG = {
+  bg: "#000000",
+  fg: "#FFFFFF",
+  muted: "rgba(255,255,255,0.72)",
+  subtle: "rgba(255,255,255,0.55)",
+  line: "rgba(255,255,255,0.3)",
+  brand: "#FFD200",
+} as const;
+
+/**
+ * Mark zigzag Kahade — geometri resmi dari @kahade/ui (`LOGO_PATHS`,
+ * sama dengan komponen `Logo`). Jangan digambar ulang.
+ */
+export function BrandMark({ size = 64 }: { size?: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 512 512">
-      <rect width="512" height="512" rx="112" fill="#FFD200" />
-      <g transform="translate(101,66) scale(0.742)" fill="#000000">
-        <path d="M164.7 248.4 C155.5 215.9 180.8 198.3 206.8 186.5 C257 163.9 336.5 149 378.6 127.8 C430.6 101.7 419.4 61.4 368.9 44 C350.5 37.6 331.7 32.4 313.4 25.9 C286.9 16.6 259.5 6.9 232.2 0 C231.3 55.4 211.7 57.7 166.8 77.2 C137.7 89.8 45.4 120.3 28.3 130.9 C-15 157.8 -7.1 197.4 41.7 213.6 C58 219.1 74.6 223.6 90.9 229 C114.7 237 140 243.8 164.7 248.4Z" />
-        <path d="M252.9 263.6 C262.1 296.1 236.8 313.7 210.7 325.5 C160.5 348.1 81 363 39 384.2 C-13.1 410.3 -1.8 450.6 48.7 468 C67.1 474.4 85.8 479.6 104.2 486.1 C130.7 495.4 158.1 505.1 185.3 512 C186.2 456.6 205.8 454.3 250.7 434.8 C279.9 422.2 372.2 391.7 389.3 381.1 C432.5 354.2 424.7 314.6 375.9 298.4 C359.5 292.9 343 288.4 326.7 283 C302.9 275 277.6 268.2 252.9 263.6Z" />
-      </g>
+    <svg
+      width={(size * 417.6) / 512}
+      height={size}
+      viewBox={LOGO_VIEWBOX}
+      fill={OG.brand}
+    >
+      {LOGO_PATHS.map((d) => (
+        <path key={d.slice(0, 12)} d={d} />
+      ))}
     </svg>
+  );
+}
+
+/** Lockup header: mark │ Karir — sama seperti SiteHeader. */
+export function KarirLockup() {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
+      <BrandMark size={60} />
+      <div style={{ width: "2px", height: "36px", background: OG.line }} />
+      <div
+        style={{
+          fontSize: "32px",
+          fontWeight: 800,
+          letterSpacing: "-0.5px",
+          color: OG.fg,
+        }}
+      >
+        Karir
+      </div>
+    </div>
   );
 }
 
@@ -26,30 +67,50 @@ export const BRAND_FONT_FAMILY = "'Plus Jakarta Sans', sans-serif";
 interface BrandFont {
   name: string;
   data: ArrayBuffer;
-  weight: 800;
+  weight: 500 | 800;
   style: "normal";
 }
 
 /**
- * Unduh Plus Jakarta Sans (800) untuk ImageResponse.
- * Mengembalikan undefined bila gagal — pemanggil fallback ke sans-serif.
+ * Unduh Plus Jakarta Sans (500 & 800) untuk ImageResponse. Google Fonts
+ * mengirim TTF untuk user-agent non-browser — format yang didukung Satori
+ * (WOFF2 tidak). Mengembalikan undefined bila gagal — pemanggil fallback ke
+ * sans-serif.
  */
 export async function loadBrandFont(): Promise<BrandFont[] | undefined> {
   try {
     const css = await fetch(
-      "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@800&display=swap",
+      "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;800&display=swap",
       { headers: { "User-Agent": "Mozilla/5.0 (compatible; KahadeBot/1.0)" } }
     ).then((res) => {
       if (!res.ok) throw new Error(`font css ${res.status}`);
       return res.text();
     });
-    const url = css.match(/url\((https:\/\/[^)]+\.woff2)\)/)?.[1];
-    if (!url) return undefined;
-    const data = await fetch(url).then((res) => {
-      if (!res.ok) throw new Error(`font woff2 ${res.status}`);
-      return res.arrayBuffer();
-    });
-    return [{ name: "Plus Jakarta Sans", data, weight: 800, style: "normal" }];
+
+    const faces = Array.from(
+      css.matchAll(
+        /font-weight:\s*(\d+);[^}]*?url\((https:\/\/[^)]+\.(?:ttf|otf|woff))\)/g
+      )
+    )
+      .map((m) => ({ weight: Number(m[1]), url: m[2] }))
+      .filter(
+        (f): f is { weight: 500 | 800; url: string } =>
+          f.weight === 500 || f.weight === 800
+      );
+    if (faces.length === 0) return undefined;
+
+    return await Promise.all(
+      faces.map(async (f) => {
+        const res = await fetch(f.url);
+        if (!res.ok) throw new Error(`font file ${res.status}`);
+        return {
+          name: "Plus Jakarta Sans",
+          data: await res.arrayBuffer(),
+          weight: f.weight,
+          style: "normal" as const,
+        };
+      })
+    );
   } catch {
     return undefined;
   }

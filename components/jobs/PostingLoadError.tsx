@@ -1,4 +1,5 @@
-import { Alert, buttonClasses } from "@kahade/ui";
+import { WarningCircle } from "@phosphor-icons/react/dist/ssr";
+import { ButtonLink, Container, EmptyState } from "@kahade/ui";
 
 /**
  * Panel error saat fetch detail lowongan gagal (bukan 404).
@@ -6,20 +7,22 @@ import { Alert, buttonClasses } from "@kahade/ui";
  */
 export default function PostingLoadError({ retryHref }: { retryHref: string }) {
   return (
-    <div className="mx-auto max-w-2xl px-5 py-16">
-      <Alert variant="danger" title="Gagal memuat data lowongan.">
-        Periksa koneksi internetmu lalu coba lagi. Bila terus gagal, kembali
-        ke daftar lowongan.
-      </Alert>
-      <div className="mt-6 flex flex-col gap-2 sm:flex-row">
-        {/* <a> biasa agar full reload dan fetch server diulang. */}
-        <a href={retryHref} className={buttonClasses("primary", "md")}>
-          Coba lagi
-        </a>
-        <a href="/#lowongan" className={buttonClasses("secondary", "md")}>
-          Lihat semua lowongan
-        </a>
-      </div>
-    </div>
+    <Container className="flex min-h-[60vh] items-center justify-center py-16">
+      <EmptyState
+        icon={WarningCircle}
+        headingLevel={1}
+        title="Gagal memuat data lowongan."
+        description="Periksa koneksi internetmu lalu coba lagi. Bila terus gagal, kembali ke daftar lowongan."
+        action={
+          <div className="flex flex-wrap justify-center gap-3">
+            {/* <a> biasa agar full reload dan fetch server diulang. */}
+            <ButtonLink href={retryHref}>Coba lagi</ButtonLink>
+            <ButtonLink href="/#lowongan" variant="secondary">
+              Lihat semua lowongan
+            </ButtonLink>
+          </div>
+        }
+      />
+    </Container>
   );
 }

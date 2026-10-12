@@ -2,8 +2,12 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { Alert, Button, Input } from "@kahade/ui";
+import { Alert, Button, Card, Input } from "@kahade/ui";
+import { LinkButton } from "@/components/ui/LinkButton";
 import { ApiError, deleteApplication } from "@/lib/api";
+
+const inlineLink =
+  "font-semibold text-fg underline decoration-line-control underline-offset-4 hover:decoration-fg";
 
 type Phase = "input" | "confirm" | "done";
 
@@ -54,32 +58,30 @@ export default function DeleteApplicationForm() {
 
   if (phase === "done") {
     return (
-      <div className="mt-8">
+      <div>
         <Alert variant="success">
           Lamaranmu sudah dihapus beserta file CV-nya. Terima kasih atas
           ketertarikanmu pada Kahade.
         </Alert>
-        <div className="mt-6 text-center">
-          <Link href="/" className="text-sm font-semibold text-black underline">
-            Kembali ke beranda
-          </Link>
-        </div>
+        <LinkButton href="/" variant="secondary" className="mt-6">
+          Kembali ke beranda
+        </LinkButton>
       </div>
     );
   }
 
   return (
-    <div className="mt-8">
-      <div ref={errorRef} tabIndex={-1} aria-live="polite">
+    <div>
+      <div ref={errorRef} tabIndex={-1} aria-live="polite" className="outline-none">
         {error && (
-          <Alert variant="danger" className="mb-5">
+          <Alert variant="danger" className="mb-6">
             {error}
           </Alert>
         )}
       </div>
 
       {phase === "input" ? (
-        <form onSubmit={handleCheck} className="space-y-4">
+        <form onSubmit={handleCheck} className="space-y-6">
           <Input
             id="deletion-token"
             label="Token penghapusan"
@@ -89,37 +91,35 @@ export default function DeleteApplicationForm() {
             placeholder="Tempel token penghapusan di sini"
             autoComplete="off"
             spellCheck={false}
+            className={token ? "font-mono" : ""}
           />
           <Button
             type="submit"
             variant="danger"
-            className="w-full"
+            className="w-full sm:w-auto"
             disabled={!token.trim()}
           >
             Lanjut hapus lamaran
           </Button>
-          <p className="text-center text-xs leading-relaxed text-neutral-500">
+          <p className="border-t border-line pt-6 text-small text-fg-muted">
             Token hilang? Hubungi kami manual — detailnya ada di{" "}
-            <Link href="/privasi-pelamar" className="font-semibold text-black underline">
+            <Link href="/privasi-pelamar" className={inlineLink}>
               Kebijakan Privasi Pelamar
             </Link>
             .
           </p>
         </form>
       ) : (
-        <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-6">
-          <p className="text-sm font-bold text-black">
-            Yakin ingin menghapus lamaran ini?
-          </p>
-          <p className="mt-2 text-sm leading-relaxed text-neutral-600">
+        <Card className="p-6 sm:p-8">
+          <h2 className="text-h4 text-fg">Yakin ingin menghapus lamaran ini?</h2>
+          <p className="mt-2 text-small text-fg-muted sm:text-body">
             Data lamaran dan file CV akan dihapus permanen. Tindakan ini tidak
             dapat dibatalkan.
           </p>
-          <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <Button
               type="button"
               variant="secondary"
-              className="flex-1"
               onClick={() => {
                 setPhase("input");
                 setError(null);
@@ -131,14 +131,13 @@ export default function DeleteApplicationForm() {
             <Button
               type="button"
               variant="danger"
-              className="flex-1"
               onClick={handleDelete}
               loading={submitting}
             >
               Ya, hapus permanen
             </Button>
           </div>
-        </div>
+        </Card>
       )}
     </div>
   );

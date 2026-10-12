@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
-import { Icon } from "@kahade/ui";
+import { Breadcrumb, Container, PageHeader } from "@kahade/ui";
 import EquityNotice from "@/components/site/EquityNotice";
 import ApplicationForm from "@/components/apply/ApplicationForm";
 import PostingLoadError from "@/components/jobs/PostingLoadError";
@@ -83,30 +81,36 @@ export default async function ApplyPage({ params }: PageProps) {
   if (!posting) notFound();
 
   return (
-    <div className="mx-auto max-w-2xl px-5 py-10">
-      <Link
-        href={`/lowongan/${posting.slug}`}
-        className="inline-flex items-center gap-1.5 py-2 text-sm font-medium text-neutral-500 transition hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black rounded"
-      >
-        <Icon icon={ArrowLeft} size={16} /> Kembali ke detail lowongan
-      </Link>
+    <>
+      <PageHeader
+        size="h2"
+        breadcrumb={
+          <Breadcrumb
+            items={[
+              { label: "Karir", href: "/" },
+              { label: posting.title, href: `/lowongan/${posting.slug}` },
+              { label: "Lamar" },
+            ]}
+          />
+        }
+        eyebrow="Formulir lamaran"
+        title={`Lamar: ${posting.title}`}
+        lede="Isi formulir lamaran — butuh beberapa menit saja."
+        meta={[
+          { label: "Lokasi", value: posting.location },
+          { label: "Tipe kerja", value: posting.type },
+          { label: "Kompensasi", value: posting.equity },
+        ]}
+      />
 
-      <header className="mt-6">
-        <h1 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
-          Lamar: {posting.title}
-        </h1>
-        <p className="mt-2 text-sm text-neutral-500">
-          {posting.location} · {posting.type} · {posting.equity}
-        </p>
-      </header>
-
-      <div className="mt-6">
-        <EquityNotice />
-      </div>
-
-      <div className="mt-8">
-        <ApplicationForm posting={posting} />
-      </div>
-    </div>
+      <Container className="py-12 sm:py-16">
+        <div className="max-w-narrow">
+          <EquityNotice />
+          <div className="mt-12">
+            <ApplicationForm posting={posting} />
+          </div>
+        </div>
+      </Container>
+    </>
   );
 }

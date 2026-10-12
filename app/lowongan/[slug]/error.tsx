@@ -2,7 +2,8 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Alert, Button } from "@kahade/ui";
+import { WarningCircle } from "@phosphor-icons/react/dist/ssr";
+import { Button, Container, EmptyState } from "@kahade/ui";
 
 /**
  * Error boundary area detail lowongan.
@@ -20,17 +21,21 @@ export default function JobDetailError({
   }, [error]);
 
   return (
-    <div className="mx-auto max-w-2xl px-5 py-16">
-      <Alert variant="danger" title="Terjadi kesalahan.">
-        Detail lowongan gagal dimuat. Coba lagi — bila terus gagal, kembali
-        ke daftar lowongan.
-      </Alert>
-      <div className="mt-6 flex flex-col gap-2 sm:flex-row">
-        <Button onClick={reset}>Coba lagi</Button>
-        <Button variant="secondary" onClick={() => router.push("/#lowongan")}>
-          Lihat semua lowongan
-        </Button>
-      </div>
-    </div>
+    <Container className="flex min-h-[60vh] items-center justify-center py-16">
+      <EmptyState
+        icon={WarningCircle}
+        headingLevel={1}
+        title="Terjadi kesalahan"
+        description="Detail lowongan gagal dimuat. Coba lagi — bila terus gagal, kembali ke daftar lowongan."
+        action={
+          <div className="flex flex-wrap justify-center gap-3">
+            <Button onClick={reset}>Coba lagi</Button>
+            <Button variant="secondary" onClick={() => router.push("/#lowongan")}>
+              Lihat semua lowongan
+            </Button>
+          </div>
+        }
+      />
+    </Container>
   );
 }

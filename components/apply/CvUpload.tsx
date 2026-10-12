@@ -1,8 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { FilePdf, UploadSimple, XCircle } from "@phosphor-icons/react";
-import { Button, Icon, Progress } from "@kahade/ui";
+import { FilePdf, XCircle } from "@phosphor-icons/react";
+import { Button, FieldError, FileUpload, Icon, Progress } from "@kahade/ui";
 import { uploadCv, ApiError } from "@/lib/api";
 
 const MAX_BYTES = 5 * 1024 * 1024;
@@ -16,11 +16,25 @@ interface Props {
   onChange: (state: CvUploadState) => void;
   onError: (message: string | null) => void;
   disabled?: boolean;
+  /** Pesan error yang ditampilkan di bawah/di dalam kontrol. */
+  error?: string;
 }
 
 type Status = "idle" | "uploading" | "done";
 
-export default function CvUpload({ onChange, onError, disabled }: Props) {
+function FieldLabel() {
+  return (
+    <span className="mb-2 block text-small font-semibold text-fg">
+      CV (PDF)
+      <span aria-hidden="true" className="text-critical">
+        {" "}
+        *
+      </span>
+    </span>
+  );
+}
+
+export default function CvUpload({ onChange, onError, disabled, error }: Props) {
   const [status, setStatus] = useState<Status>("idle");
   const [progress, setProgress] = useState(0);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -63,64 +77,54 @@ export default function CvUpload({ onChange, onError, disabled }: Props) {
     if (inputRef.current) inputRef.current.value = "";
   };
 
-  return (
-    <div>
-      <input
+  if (status === "idle") {
+    return (
+      <FileUpload
         ref={inputRef}
-        type="file"
+        id="cv-upload"
+        label="CV (PDF)"
+        required
         accept="application/pdf,.pdf"
-        disabled={disabled || status === "uploading"}
-        onChange={(e) => {
-          const f = e.target.files?.[0];
+        hint="PDF, maksimal 5 MB"
+        error={error}
+        disabled={disabled}
+        aria-label="Unggah CV (PDF, maksimal 5 MB)"
+        onFiles={(files) => {
+          const f = files[0];
+          // Kosongkan agar memilih file yang sama lagi tetap memicu unggah.
+          if (inputRef.current) inputRef.current.value = "";
           if (f) void startUpload(f);
         }}
-        className="sr-only peer"
-        id="cv-upload"
-        aria-label="Unggah CV (PDF, maksimal 5 MB)"
       />
+    );
+  }
 
-      {status === "idle" && (
-        <label
-          htmlFor="cv-upload"
-          className={`flex cursor-pointer items-center gap-3 rounded-2xl border border-dashed border-neutral-300 bg-white px-5 py-6 transition hover:border-neutral-500 peer-focus-visible:border-black peer-focus-visible:ring-[3px] peer-focus-visible:ring-black/5 ${
-            disabled ? "pointer-events-none opacity-50" : ""
-          }`}
-        >
-          <Icon icon={UploadSimple} size={24} className="text-black" />
-          <span className="text-sm">
-            <span className="font-semibold text-black">Pilih file CV</span>
-            <span className="block text-neutral-500">
-              PDF, maksimal 5 MB
-            </span>
-          </span>
-        </label>
-      )}
+  return (
+    <div>
+      <FieldLabel />
 
       {status === "uploading" && (
-        <div className="rounded-2xl border border-neutral-200 bg-white px-5 py-5">
-          <div className="flex items-center justify-between gap-3 text-sm">
-            <span className="truncate font-medium text-black">{fileName}</span>
-            <span className="shrink-0 font-semibold text-black tabular-nums">{progress}%</span>
+        <div className="rounded-panel border border-line bg-surface px-5 py-5">
+          <div className="flex items-center justify-between gap-3 text-small">
+            <span className="truncate font-medium text-fg">{fileName}</span>
+            <span className="shrink-0 font-semibold text-fg tabular-nums">{progress}%</span>
           </div>
-          <div className="mt-3">
-            <Progress value={progress} aria-label="Progres unggah CV" />
-          </div>
-          <p className="mt-2 text-xs text-neutral-500">Mengunggah CV…</p>
+          <Progress value={progress} aria-label="Progres unggah CV" className="mt-3" />
+          <p aria-live="polite" className="mt-2 text-caption text-fg-muted">
+            Mengunggah CV…
+          </p>
         </div>
       )}
 
       {status === "done" && (
-        <div className="flex items-center justify-between gap-3 rounded-2xl border border-neutral-200 bg-neutral-50 px-5 py-4">
+        <div className="flex items-center justify-between gap-3 rounded-panel border border-line bg-surface-2 py-3 pr-3 pl-5">
           <div className="flex min-w-0 items-center gap-3">
-            <Icon icon={FilePdf} size={24} className="shrink-0 text-black" />
-            <span className="truncate text-sm font-medium text-black">
-              {fileName}
-            </span>
+            <Icon icon={FilePdf} size={24} className="shrink-0 text-fg" />
+            <span className="truncate text-small font-medium text-fg">{fileName}</span>
           </div>
           <Button
             type="button"
             variant="secondary"
-            size="sm"
             leftIcon={XCircle}
             onClick={reset}
             disabled={disabled}
@@ -130,6 +134,8 @@ export default function CvUpload({ onChange, onError, disabled }: Props) {
           </Button>
         </div>
       )}
+
+      {error && <FieldError>{error}</FieldError>}
     </div>
   );
 }

@@ -1,5 +1,14 @@
 import type { Metadata } from "next";
-import { ButtonLink, Card } from "@kahade/ui";
+import type { ReactNode } from "react";
+import {
+  Breadcrumb,
+  Container,
+  PageHeader,
+  Prose,
+  Toc,
+  type TocItem,
+} from "@kahade/ui";
+import { LinkButton } from "@/components/ui/LinkButton";
 
 export const metadata: Metadata = {
   title: "Kebijakan Privasi Pelamar",
@@ -8,8 +17,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/privasi-pelamar" },
 };
 
-const SECTIONS: { title: string; body: string[] }[] = [
+const SECTIONS: { id: string; title: string; body: ReactNode[] }[] = [
   {
+    id: "data",
     title: "Data yang kami kumpulkan",
     body: [
       "Nama lengkap, alamat email, dan nomor HP yang kamu isi di formulir lamaran.",
@@ -18,6 +28,7 @@ const SECTIONS: { title: string; body: string[] }[] = [
     ],
   },
   {
+    id: "tujuan",
     title: "Tujuan penggunaan",
     body: [
       "Menilai kecocokan kamu dengan posisi yang dilamar.",
@@ -26,6 +37,7 @@ const SECTIONS: { title: string; body: string[] }[] = [
     ],
   },
   {
+    id: "dasar-hukum",
     title: "Dasar hukum",
     body: [
       "Persetujuan kamu saat mengirim formulir lamaran (Pasal 20 ayat (2) huruf a UU PDP).",
@@ -33,6 +45,7 @@ const SECTIONS: { title: string; body: string[] }[] = [
     ],
   },
   {
+    id: "retensi",
     title: "Penyimpanan & retensi",
     body: [
       "Data lamaran disimpan di server Kahade dan diakses hanya oleh pihak yang berwenang melakukan rekrutmen.",
@@ -43,6 +56,7 @@ const SECTIONS: { title: string; body: string[] }[] = [
     ],
   },
   {
+    id: "hak",
     title: "Hak kamu sebagai subjek data",
     body: [
       "Hak mengakses, memperbaiki, dan menghapus data pribadimu.",
@@ -52,6 +66,7 @@ const SECTIONS: { title: string; body: string[] }[] = [
     ],
   },
   {
+    id: "keamanan",
     title: "Keamanan",
     body: [
       "File CV disimpan secara privat dan hanya dapat diakses melalui tautan bertanda tangan yang kedaluwarsa.",
@@ -59,54 +74,89 @@ const SECTIONS: { title: string; body: string[] }[] = [
     ],
   },
   {
+    id: "kontak",
     title: "Kontak",
     body: [
-      "PT Kawal Hak Dengan Aman — situs https://kahade.id. Untuk pertanyaan atau permintaan terkait data pribadimu, hubungi kami melalui kanal resmi Kahade dan sebutkan bahwa ini terkait lamaran kerja.",
+      <>
+        PT Kawal Hak Dengan Aman — situs{" "}
+        <a href="https://kahade.id">https://kahade.id</a>. Untuk pertanyaan
+        atau permintaan terkait data pribadimu, hubungi kami melalui kanal
+        resmi Kahade dan sebutkan bahwa ini terkait lamaran kerja.
+      </>,
     ],
   },
 ];
 
+const TOC: TocItem[] = SECTIONS.map((s) => ({ id: s.id, label: s.title }));
+
 export default function PrivacyPage() {
   return (
-    <div className="mx-auto max-w-3xl px-5 py-10 sm:py-14">
-      <h1 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
-        Kebijakan Privasi Pelamar
-      </h1>
-      <p className="mt-3 text-sm leading-relaxed text-neutral-500">
-        Terakhir diperbarui: 3 Oktober 2026. Halaman ini menjelaskan bagaimana
-        Kahade memproses data pribadimu saat kamu melamar kerja, sesuai UU
-        No. 27 Tahun 2022 tentang Pelindungan Data Pribadi (UU PDP).
-      </p>
+    <>
+      <PageHeader
+        size="h2"
+        breadcrumb={
+          <Breadcrumb
+            items={[{ label: "Karir", href: "/" }, { label: "Kebijakan Privasi Pelamar" }]}
+          />
+        }
+        title="Kebijakan Privasi Pelamar"
+        lede="Halaman ini menjelaskan bagaimana Kahade memproses data pribadimu saat kamu melamar kerja, sesuai UU No. 27 Tahun 2022 tentang Pelindungan Data Pribadi (UU PDP)."
+        meta={[
+          { label: "Terakhir diperbarui", value: "3 Oktober 2026" },
+          { label: "Dasar hukum", value: "UU No. 27 Tahun 2022 (UU PDP)" },
+          { label: "Penyelenggara", value: "PT Kawal Hak Dengan Aman" },
+        ]}
+      />
 
-      <div className="mt-8 space-y-3">
-        {SECTIONS.map((s) => (
-          <section key={s.title} aria-label={s.title}>
-            <Card>
-              <h2 className="text-base font-bold text-black">{s.title}</h2>
-              <ul className="mt-3 space-y-2">
-                {s.body.map((p, i) => (
-                  <li
-                    key={i}
-                    className="text-sm leading-relaxed text-neutral-600"
-                  >
-                    {p}
-                  </li>
-                ))}
-              </ul>
-            </Card>
-          </section>
-        ))}
-      </div>
+      <Container className="py-12 sm:py-16 lg:py-20">
+        <div className="lg:grid lg:grid-cols-12 lg:gap-12">
+          <aside className="hidden lg:col-span-3 lg:block">
+            <div className="sticky top-28 max-h-[calc(100dvh-8rem)] overflow-y-auto pb-4">
+              <Toc items={TOC} />
+            </div>
+          </aside>
+          <div className="min-w-0 lg:col-span-8 lg:col-start-5">
+            <Toc items={TOC} title="Daftar isi" variant="disclosure" className="mb-10 lg:hidden" />
+            <Prose className="max-w-reading">
+              {SECTIONS.flatMap((s) => [
+                <h2 key={`${s.id}-h`} id={s.id}>
+                  {s.title}
+                </h2>,
+                s.body.length === 1 ? (
+                  <p key={`${s.id}-p`}>{s.body[0]}</p>
+                ) : (
+                  <ul key={`${s.id}-l`}>
+                    {s.body.map((p, i) => (
+                      <li key={i}>{p}</li>
+                    ))}
+                  </ul>
+                ),
+              ])}
+            </Prose>
+          </div>
+        </div>
+      </Container>
 
-      <div className="mt-3 rounded-2xl border border-neutral-200 bg-neutral-50 px-6 py-5 text-center">
-        <p className="text-sm font-bold text-black">Ingin menghapus lamaranmu?</p>
-        <p className="mt-1 text-sm leading-relaxed text-neutral-600">
-          Gunakan token penghapusan yang kamu terima setelah melamar.
-        </p>
-        <ButtonLink href="/hapus-lamaran" className="mt-3">
-          Hapus lamaran
-        </ButtonLink>
-      </div>
-    </div>
+      <section className="bg-surface-inverse text-white" aria-labelledby="judul-hapus">
+        <Container className="flex flex-col gap-8 py-14 sm:py-16 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-xl">
+            <h2 id="judul-hapus" className="text-h3 text-white">
+              Ingin menghapus lamaranmu?
+            </h2>
+            <p className="mt-3 text-body-lg text-white/70">
+              Gunakan token penghapusan yang kamu terima setelah melamar.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <LinkButton href="/hapus-lamaran" variant="inverse">
+              Hapus lamaran
+            </LinkButton>
+            <LinkButton href="/#lowongan" variant="inverseSecondary">
+              Lihat lowongan
+            </LinkButton>
+          </div>
+        </Container>
+      </section>
+    </>
   );
 }
